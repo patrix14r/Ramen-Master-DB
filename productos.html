@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabores que Fusionan - Restaurante</title>
+    <title>Productos - Ramen Master</title>
     <link rel="stylesheet" href="style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,9 +13,6 @@
         href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&family=Rowdies:wght@400&family=Alatsi&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -38,8 +35,8 @@
                 <button class="nav-close-btn" id="nav-close-btn">&times;</button>
 
                 <ul class="desktop-nav">
-                    <li><a href="index.html" class="active">INICIO</a></li>
-                    <li><a href="productos.html">PRODUCTOS</a></li>
+                    <li><a href="index.html">INICIO</a></li>
+                    <li><a href="productos.html" class="active">PRODUCTOS</a></li>
                     <li><a href="contactanos.html">CONTACTANOS</a></li>
                 </ul>
 
@@ -75,170 +72,17 @@
         </div>
     </header>
 
-
     <section class="product-menu" id="menu">
         <div class="container">
             <h2 class="fade-in">Nuestras Especialidades</h2>
-
-            <h3 class="fade-in" id="menu-ramen">RAMEN</h3>
-            <div class="product-grid">
-                <div class="product-card fade-in" data-product="ramen-1">
-                    <img src="imagenes/Tonkotsu Ramen.jpg" alt="Tonkotsu Ramen">
-                    <div class="product-info">
-                        <h4>Tonkotsu Ramen</h4>
-                        <span class="product-price">S/ 32.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="ramen-2">
-                    <img src="imagenes/Shoyu Ramen.jpg" alt="Shoyu Ramen">
-                    <div class="product-info">
-                        <h4>Shoyu Ramen</h4>
-                        <span class="product-price">S/ 30.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="ramen-3">
-                    <img src="imagenes/Miso Ramen.jpg" alt="Miso Ramen">
-                    <div class="product-info">
-                        <h4>Miso Ramen</h4>
-                        <span class="product-price">S/ 31.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="ramen-4">
-                    <img src="imagenes/Tantanmen (Picante).jpg" alt="Tantanmen Ramen">
-                    <div class="product-info">
-                        <h4>Tantanmen (Picante)</h4>
-                        <span class="product-price">S/ 34.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="ramen-5">
-                    <img src="imagenes/Veggie Ramen.jpg" alt="Veggie Ramen">
-                    <div class="product-info">
-                        <h4>Veggie Ramen</h4>
-                        <span class="product-price">S/ 29.00</span>
-                    </div>
+            <div id="productos-container">
+                <div class="product-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Cargando menú...</p>
                 </div>
             </div>
-
-            <h3 class="fade-in" id="menu-sushi">SUSHI</h3>
-            <div class="product-grid">
-                <div class="product-card fade-in" data-product="sushi-1">
-                    <img src="imagenes/makis-acevichados.jpg" alt="Maki Acevichado">
-                    <div class="product-info">
-                        <h4>Maki Acevichado</h4>
-                        <span class="product-price">S/ 28.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="sushi-2">
-                    <img src="imagenes/California-rolls.jpg" alt="California Roll">
-                    <div class="product-info">
-                        <h4>California Roll</h4>
-                        <span class="product-price">S/ 24.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="sushi-3">
-                    <img src="imagenes/Nigiri Salmón.jpg" alt="Nigiri Salmón">
-                    <div class="product-info">
-                        <h4>Nigiri Salmón (2u)</h4>
-                        <span class="product-price">S/ 12.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="sushi-4">
-                    <img src="imagenes/Maki Furai.jpg" alt="Maki Furai">
-                    <div class="product-info">
-                        <h4>Maki Furai</h4>
-                        <span class="product-price">S/ 26.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="sushi-5">
-                    <img src="imagenes/Sashimi Atún.jpg" alt="Sashimi Atún">
-                    <div class="product-info">
-                        <h4>Sashimi Atún (5 cortes)</h4>
-                        <span class="product-price">S/ 20.00</span>
-                    </div>
-                </div>
-            </div>
-
-            <h3 class="fade-in" id="menu-arroz">ARROZ FRITO</h3>
-            <div class="product-grid">
-                <div class="product-card fade-in" data-product="arroz-1">
-                    <img src="imagenes/Chaufa de Pollo.png" alt="Chaufa de Pollo">
-                    <div class="product-info">
-                        <h4>Chaufa de Pollo</h4>
-                        <span class="product-price">S/ 25.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="arroz-2">
-                    <img src="imagenes/Chaufa de Mariscos.webp" alt="Chaufa de Mariscos">
-                    <div class="product-info">
-                        <h4>Chaufa de Mariscos</h4>
-                        <span class="product-price">S/ 35.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="arroz-3">
-                    <img src="imagenes/Chaufa Especial.jpg" alt="Chaufa Especial">
-                    <div class="product-info">
-                        <h4>Chaufa Especial</h4>
-                        <span class="product-price">S/ 30.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="arroz-4">
-                    <img src="imagenes/Yakimeshi.jpg" alt="Yakimeshi">
-                    <div class="product-info">
-                        <h4>Yakimeshi</h4>
-                        <span class="product-price">S/ 28.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="arroz-5">
-                    <img src="imagenes/Arroz Vegetariano.webp" alt="Arroz Vegetariano">
-                    <div class="product-info">
-                        <h4>Arroz Vegetariano</h4>
-                        <span class="product-price">S/ 24.00</span>
-                    </div>
-                </div>
-            </div>
-
-            <h3 class="fade-in" id="menu-omelets">OMELETS </h3>
-            <div class="product-grid">
-                <div class="product-card fade-in" data-product="omelet-1">
-                    <img src="imagenes/Omelet de Cangrejo.webp" alt="Omelet de Cangrejo">
-                    <div class="product-info">
-                        <h4>Omelet de Cangrejo</h4>
-                        <span class="product-price">S/ 25.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="omelet-2">
-                    <img src="imagenes/Omurice Clasico.jpg" alt="Omurice">
-                    <div class="product-info">
-                        <h4>Omurice Clásico</h4>
-                        <span class="product-price">S/ 27.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="omelet-3">
-                    <img src="imagenes/Tamagoyaki (Dulce).webp" alt="Tamagoyaki">
-                    <div class="product-info">
-                        <h4>Tamagoyaki (Dulce)</h4>
-                        <span class="product-price">S/ 15.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="omelet-4">
-                    <img src="imagenes/Tortilla de Langostinos.jpg" alt="Tortilla de Langostinos">
-                    <div class="product-info">
-                        <h4>Tortilla de Langostinos</h4>
-                        <span class="product-price">S/ 29.00</span>
-                    </div>
-                </div>
-                <div class="product-card fade-in" data-product="omelet-5">
-                    <img src="imagenes/Omelet con Queso.jpg" alt="Omelet con Queso">
-                    <div class="product-info">
-                        <h4>Omelet con Queso</h4>
-                        <span class="product-price">S/ 20.00</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
-    </main>
 
     <footer class="site-footer-pro" id="ubicaciones">
         <div class="container footer-grid">
@@ -305,81 +149,6 @@
     </div>
 
 
-    <div class="modal-container" id="checkout-modal">
-        <div class="modal-content modern-cart-content">
-
-            <div class="cart-header">
-                <h2>Tu Orden <span style="color:#D90429;">🍜</span></h2>
-                <button class="modal-close-modern" id="checkout-close-btn"><i class="fas fa-times"></i></button>
-            </div>
-
-            <div class="cart-layout-grid">
-                <!-- Columna Izquierda: Lista y Total -->
-                <div class="cart-col-left">
-                    <div class="cart-body">
-                        <div id="cart-items-list" class="modern-items-list">
-                        </div>
-                    </div>
-                    <div class="total-row">
-                        <span>Total a Pagar:</span>
-                        <span id="cart-total" class="neon-price">S/ 0.00</span>
-                    </div>
-                </div>
-
-                <!-- Columna Derecha: Opciones y Confirmar -->
-                <div class="cart-col-right cart-footer-right">
-                    <!-- NUEVO: Tipo de entrega (mapea a Pedidos.tipo_entrega) -->
-                    <div class="tipo-entrega-section">
-                        <p>Tipo de Entrega:</p>
-                        <div class="tipo-entrega-options">
-                            <label class="tipo-entrega-label">
-                                <input type="radio" name="tipo_entrega" value="Delivery" checked>
-                                <span class="tipo-entrega-icon"><i class="fas fa-motorcycle"></i> Delivery</span>
-                            </label>
-                            <label class="tipo-entrega-label">
-                                <input type="radio" name="tipo_entrega" value="Retiro en tienda">
-                                <span class="tipo-entrega-icon"><i class="fas fa-store"></i> Retiro en tienda</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- NUEVO: Campos delivery condicionales (mapea a Deliveries) -->
-                    <div class="delivery-fields" id="delivery-fields">
-                        <input type="text" id="delivery-address" class="delivery-input" placeholder="📍 Dirección de entrega">
-                        <input type="tel" id="delivery-phone" class="delivery-input" placeholder="📞 Teléfono de contacto">
-                    </div>
-
-                    <!-- Método de pago con id_metodo (mapea a Checkout_Ordenes.id_metodo) -->
-                    <div class="payment-section-compact">
-                        <p>Método de Pago:</p>
-                        <div class="payment-cards">
-                            <label class="payment-card-label">
-                                <input type="radio" name="payment" value="1" checked>
-                                <span class="payment-card-content"><i class="fas fa-credit-card"></i> Tarjeta de Crédito/Débito</span>
-                            </label>
-                            <label class="payment-card-label">
-                                <input type="radio" name="payment" value="2">
-                                <span class="payment-card-content"><i class="fas fa-mobile-alt"></i> Yape/Plin</span>
-                            </label>
-                            <label class="payment-card-label">
-                                <input type="radio" name="payment" value="3">
-                                <span class="payment-card-content"><i class="fas fa-money-bill-wave"></i> Efectivo</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Botón único de confirmar pedido -->
-                    <div class="cart-actions">
-                        <button id="confirm-order-btn" class="btn-action confirm">
-                            CONFIRMAR PEDIDO <i class="fas fa-check-circle"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
     <div class="modal-container" id="login-modal">
 
         <div class="login-form-container">
@@ -387,6 +156,7 @@
 
             <form id="login-form" class="login-form-content active">
                 <h2><b>Iniciar Sesión</b></h2>
+                <div class="auth-msg" id="login-msg"></div>
                 <div class="input-group">
                     <label for="login-email">Usuario</label>
                     <input type="email" id="login-email" required>
@@ -401,19 +171,44 @@
                 </div>
                 <button type="submit" class="login-button">Entrar</button>
                 <p class="register-link">
+                    <a href="#" id="show-recover-form">¿Olvidaste tu contraseña?</a>
+                </p>
+                <p class="register-link" style="margin-top: 5px;">
                     ¿No tienes una cuenta? <a href="#" id="show-register-form">Regístrate</a>
+                </p>
+            </form>
+
+            <form id="recover-form" class="login-form-content">
+                <h2><b>Recuperar</b></h2>
+                <div class="auth-msg" id="recover-msg"></div>
+                <div class="input-group">
+                    <label for="recover-email">Correo Electrónico</label>
+                    <input type="email" id="recover-email" required>
+                </div>
+                <button type="submit" class="login-button">Enviar Enlace</button>
+                <p class="register-link">
+                    <a href="#" id="show-login-from-recover">Volver a Iniciar Sesión</a>
                 </p>
             </form>
 
             <form id="register-form" class="login-form-content">
                 <h2><b>Regístrate</b></h2>
+                <div class="auth-msg" id="register-msg"></div>
                 <div class="input-group">
                     <label for="reg-name">Nombre</label>
                     <input type="text" id="reg-name" required>
                 </div>
                 <div class="input-group">
+                    <label for="reg-apellido">Apellido</label>
+                    <input type="text" id="reg-apellido" required>
+                </div>
+                <div class="input-group">
                     <label for="reg-email">Correo Electrónico</label>
                     <input type="email" id="reg-email" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-telefono">Teléfono</label>
+                    <input type="tel" id="reg-telefono" placeholder="Ej: 987654321">
                 </div>
                 <div class="input-group">
                     <label for="reg-pass">Crea una Contraseña</label>
@@ -426,8 +221,6 @@
             </form>
         </div>
     </div>
-    
-
 
     <div class="modal-container" id="search-modal">
         <div class="modal-content search-modal-content"
@@ -459,7 +252,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js" defer></script>
 </body>
 

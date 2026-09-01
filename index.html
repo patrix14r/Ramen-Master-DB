@@ -14,8 +14,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
 
 
 </head>
@@ -261,80 +260,7 @@
 
 
 
-    <div class="modal-container" id="checkout-modal">
-        <div class="modal-content modern-cart-content">
 
-            <div class="cart-header">
-                <h2>Tu Orden <span style="color:#D90429;">🍜</span></h2>
-                <button class="modal-close-modern" id="checkout-close-btn"><i class="fas fa-times"></i></button>
-            </div>
-
-            <div class="cart-layout-grid">
-                <!-- Columna Izquierda: Lista y Total -->
-                <div class="cart-col-left">
-                    <div class="cart-body">
-                        <div id="cart-items-list" class="modern-items-list">
-                        </div>
-                    </div>
-                    <div class="total-row">
-                        <span>Total a Pagar:</span>
-                        <span id="cart-total" class="neon-price">S/ 0.00</span>
-                    </div>
-                </div>
-
-                <!-- Columna Derecha: Opciones y Confirmar -->
-                <div class="cart-col-right cart-footer-right">
-                    <!-- NUEVO: Tipo de entrega (mapea a Pedidos.tipo_entrega) -->
-                    <div class="tipo-entrega-section">
-                        <p>Tipo de Entrega:</p>
-                        <div class="tipo-entrega-options">
-                            <label class="tipo-entrega-label">
-                                <input type="radio" name="tipo_entrega" value="Delivery" checked>
-                                <span class="tipo-entrega-icon"><i class="fas fa-motorcycle"></i> Delivery</span>
-                            </label>
-                            <label class="tipo-entrega-label">
-                                <input type="radio" name="tipo_entrega" value="Retiro en tienda">
-                                <span class="tipo-entrega-icon"><i class="fas fa-store"></i> Retiro en tienda</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- NUEVO: Campos delivery condicionales (mapea a Deliveries) -->
-                    <div class="delivery-fields" id="delivery-fields">
-                        <input type="text" id="delivery-address" class="delivery-input" placeholder="📍 Dirección de entrega">
-                        <input type="tel" id="delivery-phone" class="delivery-input" placeholder="📞 Teléfono de contacto">
-                    </div>
-
-                    <!-- Método de pago con id_metodo (mapea a Checkout_Ordenes.id_metodo) -->
-                    <div class="payment-section-compact">
-                        <p>Método de Pago:</p>
-                        <div class="payment-cards">
-                            <label class="payment-card-label">
-                                <input type="radio" name="payment" value="1" checked>
-                                <span class="payment-card-content"><i class="fas fa-credit-card"></i> Tarjeta de Crédito/Débito</span>
-                            </label>
-                            <label class="payment-card-label">
-                                <input type="radio" name="payment" value="2">
-                                <span class="payment-card-content"><i class="fas fa-mobile-alt"></i> Yape/Plin</span>
-                            </label>
-                            <label class="payment-card-label">
-                                <input type="radio" name="payment" value="3">
-                                <span class="payment-card-content"><i class="fas fa-money-bill-wave"></i> Efectivo</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Botón único de confirmar pedido -->
-                    <div class="cart-actions">
-                        <button id="confirm-order-btn" class="btn-action confirm">
-                            CONFIRMAR PEDIDO <i class="fas fa-check-circle"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
 
     <div class="modal-container" id="login-modal">
@@ -344,6 +270,7 @@
 
             <form id="login-form" class="login-form-content active">
                 <h2><b>Iniciar Sesión</b></h2>
+                <div class="auth-msg" id="login-msg"></div>
                 <div class="input-group">
                     <label for="login-email">Usuario</label>
                     <input type="email" id="login-email" required>
@@ -358,19 +285,44 @@
                 </div>
                 <button type="submit" class="login-button">Entrar</button>
                 <p class="register-link">
+                    <a href="#" id="show-recover-form">¿Olvidaste tu contraseña?</a>
+                </p>
+                <p class="register-link" style="margin-top: 5px;">
                     ¿No tienes una cuenta? <a href="#" id="show-register-form">Regístrate</a>
+                </p>
+            </form>
+
+            <form id="recover-form" class="login-form-content">
+                <h2><b>Recuperar</b></h2>
+                <div class="auth-msg" id="recover-msg"></div>
+                <div class="input-group">
+                    <label for="recover-email">Correo Electrónico</label>
+                    <input type="email" id="recover-email" required>
+                </div>
+                <button type="submit" class="login-button">Enviar Enlace</button>
+                <p class="register-link">
+                    <a href="#" id="show-login-from-recover">Volver a Iniciar Sesión</a>
                 </p>
             </form>
 
             <form id="register-form" class="login-form-content">
                 <h2><b>Regístrate</b></h2>
+                <div class="auth-msg" id="register-msg"></div>
                 <div class="input-group">
                     <label for="reg-name">Nombre</label>
                     <input type="text" id="reg-name" required>
                 </div>
                 <div class="input-group">
+                    <label for="reg-apellido">Apellido</label>
+                    <input type="text" id="reg-apellido" required>
+                </div>
+                <div class="input-group">
                     <label for="reg-email">Correo Electrónico</label>
                     <input type="email" id="reg-email" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-telefono">Teléfono</label>
+                    <input type="tel" id="reg-telefono" placeholder="Ej: 987654321">
                 </div>
                 <div class="input-group">
                     <label for="reg-pass">Crea una Contraseña</label>
@@ -416,7 +368,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="script.js" defer></script>
 </body>
 

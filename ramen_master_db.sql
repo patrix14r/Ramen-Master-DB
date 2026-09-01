@@ -1,11 +1,7 @@
--- 1. REINICIO DE LA BASE DE DATOS
 DROP DATABASE IF EXISTS ramen_master_db;
 CREATE DATABASE ramen_master_db DEFAULT CHARACTER SET utf8mb4;
 USE ramen_master_db;
 
-
-
--- BLOQUE 1: ESTRUCTURA (DDL)
 CREATE TABLE Sedes (
     id_sede INT AUTO_INCREMENT PRIMARY KEY,
     nombre_sede VARCHAR(50) NOT NULL,
@@ -28,6 +24,7 @@ CREATE TABLE Clientes (
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
     correo VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
     telefono VARCHAR(15)
 );
 
@@ -54,7 +51,8 @@ CREATE TABLE Metodos_Pago (
 CREATE TABLE Descuentos (
     id_descuento INT AUTO_INCREMENT PRIMARY KEY,
     nombre_descuento VARCHAR(50) NOT NULL,
-    porcentaje DECIMAL(5,2) NOT NULL
+    porcentaje DECIMAL(5,2) NOT NULL,
+    descripcion VARCHAR(255)
 );
 
 CREATE TABLE Deliveries (
@@ -115,23 +113,24 @@ INSERT INTO Repartidores (nombre, apellido, correo, telefono, id_sede) VALUES
 ('Frank', 'Chambergo', 'fchambergo@ramenmaster.com', '987333444', 1),
 ('Jair', 'Nolasco', 'jnolasco@ramenmaster.com', '987111222', 1);
 
-INSERT INTO Clientes (nombre, apellido, correo, telefono) VALUES 
-('Luis', 'Perez', 'luis.perez@email.com', '912345678'),
-('Ana', 'Gomez', 'ana.gomez@email.com', '988777666'),
-('Carlos', 'Ruiz', 'cruiz@email.com', '977666555'),
-('Maria', 'Salas', 'msalas@email.com', '966555444');
+INSERT INTO Clientes (nombre, apellido, correo, password_hash, telefono) VALUES
+('Luis', 'Perez', 'luis.perez@email.com', '$2y$10$abcdefghijklmnopqrstuv', '912345678'),
+('Ana', 'Gomez', 'ana.gomez@email.com', '$2y$10$abcdefghijklmnopqrstuv', '988777666'),
+('Carlos', 'Ruiz', 'cruiz@email.com', '$2y$10$abcdefghijklmnopqrstuv', '977666555'),
+('Maria', 'Salas', 'msalas@email.com', '$2y$10$abcdefghijklmnopqrstuv', '966555444');
 
 INSERT INTO Metodos_Pago (nombre_metodo) VALUES 
 ('Tarjeta Credito/Debito'), ('Yape/Plin'), ('Efectivo');
 
-INSERT INTO Descuentos (nombre_descuento, porcentaje) VALUES 
-('BIENVENIDA_RAMEN', 15.00);
+INSERT INTO Descuentos (nombre_descuento, porcentaje, descripcion) VALUES
+('BIENVENIDA_RAMEN', 15.00, '15% de descuento automático en tu primera compra'),
+('PROMO_ESTUDIANTE', 10.00, '10% de descuento con carné universitario'),
+('FIDELIDAD_RAMEN', 20.00, '20% de descuento para clientes frecuentes');
 
 INSERT INTO Categorias (nombre_categoria) VALUES 
 ('Ramen'), ('Sushi'), ('Arroz Frito'), ('Omelets');
 
--- CARTA COMPLETA: LOS 20 PLATOS REALES
--- RAMEN (id_categoria = 1)
+
 INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
 (1, 'Tonkotsu Ramen', 'Caldo de cerdo insignia (18h). Chashu, huevo ajitama, fideos frescos.', 32.00, 1, 1),
 (2, 'Shoyu Ramen', 'Caldo ligero a base de soya, con pollo, menma y espinaca.', 30.00, 1, 1),
@@ -139,7 +138,7 @@ INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_cat
 (4, 'Tantanmen (Picante)', 'Caldo cremoso y picante de sésamo con carne de cerdo molida.', 34.00, 1, 1),
 (5, 'Veggie Ramen', 'Caldo de vegetales y hongos shiitake, con tofu y verduras de estación.', 29.00, 1, 1);
 
--- SUSHI (id_categoria = 2)
+
 INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
 (6, 'Maki Acevichado', 'Relleno de langostino furai y palta, cubierto con atún y salsa acevichada.', 28.00, 2, 1),
 (7, 'California Roll', 'Clásico roll con palta, kani kama (cangrejo) y pepino, cubierto de sésamo.', 24.00, 2, 1),
@@ -147,7 +146,6 @@ INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_cat
 (9, 'Maki Furai', 'Roll empanizado y frito, relleno de queso crema y salmón.', 26.00, 2, 1),
 (10, 'Sashimi Atún (5 cuts)', 'Cortes puros y frescos de atún, servidos con wasabi y kion.', 20.00, 2, 1);
 
--- ARROZ FRITO (id_categoria = 3)
 INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
 (11, 'Chaufa de Pollo', 'Clásico arroz frito con trozos de pollo, tortilla y cebollita china.', 25.00, 3, 1),
 (12, 'Chaufa de Mariscos', 'Arroz frito saltado al wok con langostinos, calamar y conchas.', 35.00, 3, 1),
@@ -155,7 +153,6 @@ INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_cat
 (14, 'Yakimeshi', 'Arroz frito japonés con verduras, mantequilla y un toque de soya.', 28.00, 3, 1),
 (15, 'Arroz Vegetariano', 'Arroz frito con hongos, tofu, brócoli y pimientos.', 24.00, 3, 1);
 
--- OMELETS (id_categoria = 4)
 INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
 (16, 'Omelet de Cangrejo', 'Tortilla japonesa rellena de pulpa de cangrejo fresca.', 25.00, 4, 1),
 (17, 'Omurice Clásico', 'Omelet tierno sobre arroz frito, bañado en salsa demiglace.', 27.00, 4, 1),
@@ -163,14 +160,11 @@ INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_cat
 (19, 'Tortilla de Langostinos', 'Tortilla esponjosa con langostinos y cebollita china.', 29.00, 4, 1),
 (20, 'Omelet con Queso', 'Omelet relleno de queso mozzarella derretido.', 20.00, 4, 1);
 
--- 5. LOGÍSTICA (DELIVERIES)
 INSERT INTO Deliveries (id_delivery, id_repartidor, direccion_entrega, estado_envio) VALUES 
 (1, 1, 'Av. Los Ficus 456, Santa Anita', 'En camino'),
 (2, 2, 'Av. Universitaria 123, San Miguel', 'En camino'),
 (3, 1, 'Calle Los Pinos 444, Miraflores', 'Entregado');
 
--- 6. PEDIDOS Y COMPRAS (Lógica relacional mapeada al revés)
--- Pedido 1 (Tiene delivery 1)
 INSERT INTO Pedidos (id_pedido, id_cliente, id_delivery, estado_preparacion, tipo_entrega) VALUES 
 (1, 1, 1, 'Listo para entregar', 'Delivery');
 INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario, subtotal) VALUES 
@@ -180,7 +174,6 @@ INSERT INTO Modificaciones_Detalle (id_detalle, opcion_elegida, precio_adicional
 INSERT INTO Checkout_Ordenes (id_pedido, id_metodo, id_descuento, monto_descuento, total_final, estado_pago) VALUES 
 (1, 2, 1, 13.80, 78.20, 'Pagado');
 
--- Pedido 2 (Retiro en tienda -> id_delivery es NULL)
 INSERT INTO Pedidos (id_pedido, id_cliente, id_delivery, estado_preparacion, tipo_entrega) VALUES 
 (2, 2, NULL, 'En cocina', 'Retiro en tienda');
 INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario, subtotal) VALUES 
@@ -190,7 +183,6 @@ INSERT INTO Modificaciones_Detalle (id_detalle, opcion_elegida, precio_adicional
 INSERT INTO Checkout_Ordenes (id_pedido, id_metodo, id_descuento, monto_descuento, total_final, estado_pago) VALUES 
 (2, 1, NULL, 0.00, 60.00, 'Pagado');
 
--- Pedido 3 (Tiene delivery 2)
 INSERT INTO Pedidos (id_pedido, id_cliente, id_delivery, estado_preparacion, tipo_entrega) VALUES 
 (3, 3, 2, 'Listo para entregar', 'Delivery');
 INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario, subtotal) VALUES 
@@ -198,7 +190,6 @@ INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, preci
 INSERT INTO Checkout_Ordenes (id_pedido, id_metodo, id_descuento, monto_descuento, total_final, estado_pago) VALUES 
 (3, 3, 1, 20.40, 115.60, 'Pagado');
 
--- Pedido 4 (Retiro en tienda -> id_delivery es NULL)
 INSERT INTO Pedidos (id_pedido, id_cliente, id_delivery, estado_preparacion, tipo_entrega) VALUES 
 (4, 4, NULL, 'Entregado', 'Retiro en tienda');
 INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario, subtotal) VALUES 
@@ -206,7 +197,6 @@ INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, preci
 INSERT INTO Checkout_Ordenes (id_pedido, id_metodo, id_descuento, monto_descuento, total_final, estado_pago) VALUES 
 (4, 2, NULL, 0.00, 89.00, 'Pagado');
 
--- Pedido 5 (Tiene delivery 3)
 INSERT INTO Pedidos (id_pedido, id_cliente, id_delivery, estado_preparacion, tipo_entrega) VALUES 
 (5, 1, 3, 'Entregado', 'Delivery');
 INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario, subtotal) VALUES 
