@@ -1,5 +1,5 @@
 <?php
-session_set_cookie_params(86400 * 30); // Sesión de 30 días
+session_set_cookie_params(86400 * 30);
 session_start();
 header('Content-Type: application/json; charset=utf-8');
 
@@ -26,7 +26,7 @@ if (!$data) {
 
 $idCliente = $_SESSION['id_cliente'];
 
-// Mapear tipo_entrega del frontend al ENUM de la BD
+
 $tipoEntregaMap = ['Delivery' => 'Delivery', 'Retiro en tienda' => 'Retiro'];
 $tipoEntrega = $tipoEntregaMap[$data['pedido']['tipo_entrega'] ?? ''] ?? 'Retiro';
 

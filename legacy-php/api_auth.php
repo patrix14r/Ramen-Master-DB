@@ -7,6 +7,8 @@ require_once 'conexion.php';
 $action = $_GET['action'] ?? '';
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
 
+
+
 switch ($action) {
     case 'login':
         $email = trim($input['email'] ?? '');

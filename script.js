@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* ============================================================
-       1. ESTADO GLOBAL — Carrito desde localStorage
-       ============================================================ */
+
     let cart = [];
     try {
         const stored = localStorage.getItem('ramen_master_cart');
@@ -19,9 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try { localStorage.setItem('ramen_master_cart', JSON.stringify(cart)); } catch (e) {}
     }
 
-    /* ============================================================
-       2. MENÚ HAMBURGUESA
-       ============================================================ */
+
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const navMenu = document.getElementById('main-nav-menu');
     const navCloseBtn = document.getElementById('nav-close-btn');
@@ -34,9 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* ============================================================
-       3. CARGA DINÁMICA DE PRODUCTOS
-       ============================================================ */
+
     async function cargarProductos() {
         const container = document.getElementById('productos-container');
         if (!container) return;
@@ -52,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             productos.forEach(p => {
                 const key = `prod-${p.id_producto}`;
+                let rawImg = p.imagen || p.nombre;
+                let finalImg = rawImg.startsWith('imagenes/') ? rawImg : `imagenes/${rawImg}${rawImg.includes('.') ? '' : '.jpg'}`;
+                
                 productData[key] = {
                     id_producto: parseInt(p.id_producto),
                     id_categoria: parseInt(p.id_categoria),
@@ -59,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     desc: p.descripcion || '',
                     price: `S/ ${parseFloat(p.precio).toFixed(2)}`,
                     priceNum: parseFloat(p.precio),
-                    img: `imagenes/${p.nombre}.jpg`,
+                    img: finalImg,
                     categoria: p.categoria_nombre
                 };
                 if (!categorias[p.id_categoria]) {
@@ -90,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.className = 'product-card fade-in';
                     card.dataset.product = key;
                     card.innerHTML = `
-                        <img src="${p.img}" alt="${p.title}">
+                        <img src="${p.img}" alt="${p.title}" onerror="this.onerror=null; this.src='imagenes/default_plato.jpg';">
                         <div class="product-info">
                             <h4>${p.title}</h4>
                             <span class="product-price">${p.price}</span>
@@ -107,10 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (err) {
             console.error('Error cargando productos:', err);
+            // Muestra mensaje y botón de reintento si falla conexión al servidor PHP
             container.innerHTML = `
-                <div class="product-loading">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>Error al cargar el menú. Recarga la página.</p>
+                <div class="product-loading" style="display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; padding: 20px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: #ff4b2b;"></i>
+                    <p style="margin: 0; max-width: 400px; line-height: 1.4;">No se pudo conectar con el catálogo. Verifica que el servidor PHP y MySQL estén activos.</p>
+                    <button onclick="window.location.reload()" style="margin-top: 10px; background: linear-gradient(90deg, #ff4b2b, #ff416c); color: #fff; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-family: 'Alatsi', sans-serif; box-shadow: 0 4px 15px rgba(255, 75, 43, 0.3); font-size: 1rem;">Reintentar</button>
                 </div>`;
         }
     }
@@ -454,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartTotal = document.getElementById('cart-total');
 
     // Añadir producto desde modal
-    function addToCart() {
+    window.addToCart = function addToCart() {
         if (!currentProduct) return;
         const id = currentProduct.id_producto;
         const existing = cart.find(item => item.id === id);
@@ -835,8 +834,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* ============================================================
-       13. INICIALIZACIÓN
-       ============================================================ */
+
     updateCartUI();
 });
