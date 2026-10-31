@@ -1,6 +1,55 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     /* ============================================================
+       0. MAPA DE IMÁGENES Y CATÁLOGO DE RESPALDO (OFFLINE / FALLBACK)
+       ============================================================ */
+    const PRODUCT_IMAGES = {
+        1: 'imagenes/ramen/tonkotsu-ramen.jpg',
+        2: 'imagenes/ramen/shoyu-ramen.jpg',
+        3: 'imagenes/ramen/miso-ramen.jpg',
+        4: 'imagenes/ramen/tantanmen.jpg',
+        5: 'imagenes/ramen/veggie-ramen.jpg',
+        6: 'imagenes/sushi/maki-acevichado.jpg',
+        7: 'imagenes/sushi/california-roll.jpg',
+        8: 'imagenes/sushi/nigiri-salmon.jpg',
+        9: 'imagenes/sushi/maki-furai.jpg',
+        10: 'imagenes/sushi/sashimi-atun.jpg',
+        11: 'imagenes/arroz/chaufa-de-pollo.png',
+        12: 'imagenes/arroz/chaufa-de-mariscos.webp',
+        13: 'imagenes/arroz/chaufa-especial.jpg',
+        14: 'imagenes/arroz/yakimeshi.jpg',
+        15: 'imagenes/arroz/arroz-vegetariano.webp',
+        16: 'imagenes/omelets/omelet-de-cangrejo.webp',
+        17: 'imagenes/omelets/omurice-clasico.jpg',
+        18: 'imagenes/omelets/tamagoyaki-dulce.webp',
+        19: 'imagenes/omelets/tortilla-de-langostinos.jpg',
+        20: 'imagenes/omelets/omelet-con-queso.jpg'
+    };
+
+    const DEFAULT_PRODUCTS = [
+        { id_producto: 1, id_categoria: 1, nombre: 'Tonkotsu Ramen', descripcion: 'Caldo de cerdo insignia (18h). Chashu, huevo ajitama, fideos frescos.', precio: 32.00, categoria_nombre: 'Ramen', imagen: 'imagenes/ramen/tonkotsu-ramen.jpg' },
+        { id_producto: 2, id_categoria: 1, nombre: 'Shoyu Ramen', descripcion: 'Caldo ligero a base de soya, con pollo, menma y espinaca.', precio: 30.00, categoria_nombre: 'Ramen', imagen: 'imagenes/ramen/shoyu-ramen.jpg' },
+        { id_producto: 3, id_categoria: 1, nombre: 'Miso Ramen', descripcion: 'Caldo a base de miso, con maíz, mantequilla y chashu.', precio: 31.00, categoria_nombre: 'Ramen', imagen: 'imagenes/ramen/miso-ramen.jpg' },
+        { id_producto: 4, id_categoria: 1, nombre: 'Tantanmen (Picante)', descripcion: 'Caldo cremoso y picante de sésamo con carne de cerdo molida.', precio: 34.00, categoria_nombre: 'Ramen', imagen: 'imagenes/ramen/tantanmen.jpg' },
+        { id_producto: 5, id_categoria: 1, nombre: 'Veggie Ramen', descripcion: 'Caldo de vegetales y hongos shiitake, con tofu y verduras de estación.', precio: 29.00, categoria_nombre: 'Ramen', imagen: 'imagenes/ramen/veggie-ramen.jpg' },
+        { id_producto: 6, id_categoria: 2, nombre: 'Maki Acevichado', descripcion: 'Relleno de langostino furai y palta, cubierto con atún y salsa acevichada.', precio: 28.00, categoria_nombre: 'Sushi', imagen: 'imagenes/sushi/maki-acevichado.jpg' },
+        { id_producto: 7, id_categoria: 2, nombre: 'California Roll', descripcion: 'Clásico roll con palta, kani kama (cangrejo) y pepino, cubierto de sésamo.', precio: 24.00, categoria_nombre: 'Sushi', imagen: 'imagenes/sushi/california-roll.jpg' },
+        { id_producto: 8, id_categoria: 2, nombre: 'Nigiri Salmón (2u)', descripcion: 'Cortes frescos de salmón sobre arroz de sushi sazonado.', precio: 12.00, categoria_nombre: 'Sushi', imagen: 'imagenes/sushi/nigiri-salmon.jpg' },
+        { id_producto: 9, id_categoria: 2, nombre: 'Maki Furai', descripcion: 'Roll empanizado y frito, relleno de queso crema y salmón.', precio: 26.00, categoria_nombre: 'Sushi', imagen: 'imagenes/sushi/maki-furai.jpg' },
+        { id_producto: 10, id_categoria: 2, nombre: 'Sashimi Atún (5 cuts)', descripcion: 'Cortes puros y frescos de atún, servidos con wasabi y kion.', precio: 20.00, categoria_nombre: 'Sushi', imagen: 'imagenes/sushi/sashimi-atun.jpg' },
+        { id_producto: 11, id_categoria: 3, nombre: 'Chaufa de Pollo', descripcion: 'Clásico arroz frito con trozos de pollo, tortilla y cebollita china.', precio: 25.00, categoria_nombre: 'Arroz Frito', imagen: 'imagenes/arroz/chaufa-de-pollo.png' },
+        { id_producto: 12, id_categoria: 3, nombre: 'Chaufa de Mariscos', descripcion: 'Arroz frito saltado al wok con langostinos, calamar y conchas.', precio: 35.00, categoria_nombre: 'Arroz Frito', imagen: 'imagenes/arroz/chaufa-de-mariscos.webp' },
+        { id_producto: 13, id_categoria: 3, nombre: 'Chaufa Especial', descripcion: 'Combinación de pollo, cerdo y langostinos en nuestro arroz frito.', precio: 30.00, categoria_nombre: 'Arroz Frito', imagen: 'imagenes/arroz/chaufa-especial.jpg' },
+        { id_producto: 14, id_categoria: 3, nombre: 'Yakimeshi', descripcion: 'Arroz frito japonés con verduras, mantequilla y un toque de soya.', precio: 28.00, categoria_nombre: 'Arroz Frito', imagen: 'imagenes/arroz/yakimeshi.jpg' },
+        { id_producto: 15, id_categoria: 3, nombre: 'Arroz Vegetariano', descripcion: 'Arroz frito con hongos, tofu, brócoli y pimientos.', precio: 24.00, categoria_nombre: 'Arroz Frito', imagen: 'imagenes/arroz/arroz-vegetariano.webp' },
+        { id_producto: 16, id_categoria: 4, nombre: 'Omelet de Cangrejo', descripcion: 'Tortilla japonesa rellena de pulpa de cangrejo fresca.', precio: 25.00, categoria_nombre: 'Omelets', imagen: 'imagenes/omelets/omelet-de-cangrejo.webp' },
+        { id_producto: 17, id_categoria: 4, nombre: 'Omurice Clásico', descripcion: 'Omelet tierno sobre arroz frito, bañado en salsa demiglace.', precio: 27.00, categoria_nombre: 'Omelets', imagen: 'imagenes/omelets/omurice-clasico.jpg' },
+        { id_producto: 18, id_categoria: 4, nombre: 'Tamagoyaki (Dulce)', descripcion: 'Clásica tortilla japonesa enrollada con un toque dulce.', precio: 15.00, categoria_nombre: 'Omelets', imagen: 'imagenes/omelets/tamagoyaki-dulce.webp' },
+        { id_producto: 19, id_categoria: 4, nombre: 'Tortilla de Langostinos', descripcion: 'Tortilla esponjosa con langostinos y cebollita china.', precio: 29.00, categoria_nombre: 'Omelets', imagen: 'imagenes/omelets/tortilla-de-langostinos.jpg' },
+        { id_producto: 20, id_categoria: 4, nombre: 'Omelet con Queso', descripcion: 'Omelet relleno de queso mozzarella derretido.', precio: 20.00, categoria_nombre: 'Omelets', imagen: 'imagenes/omelets/omelet-con-queso.jpg' }
+    ];
+
+    /* ============================================================
        1. ESTADO GLOBAL — Carrito desde localStorage
        ============================================================ */
     let cart = [];
@@ -8,6 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const stored = localStorage.getItem('ramen_master_cart');
         cart = stored ? JSON.parse(stored) : [];
         if (!Array.isArray(cart)) cart = [];
+        // Normalizar rutas de imágenes antiguas en el carrito
+        cart.forEach(item => {
+            if (PRODUCT_IMAGES[item.id]) {
+                item.img = PRODUCT_IMAGES[item.id];
+            }
+        });
     } catch (e) { cart = []; }
 
     let currentProduct = null;
@@ -42,24 +97,39 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!container) return;
 
         try {
-            const res = await fetch('api_productos.php');
-            if (!res.ok) throw new Error('Error del servidor');
-            const productos = await res.json();
-            if (productos.error) throw new Error(productos.error);
+            let productos = [];
+            try {
+                const res = await fetch('api/api_productos.php');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (!data.error && Array.isArray(data) && data.length > 0) {
+                        productos = data;
+                    }
+                }
+            } catch (apiErr) {
+                console.warn('API no accesible, usando catálogo de respaldo local:', apiErr);
+            }
+
+            // Fallback si la API no está disponible (ej. MySQL apagado o visualización local file://)
+            if (!productos || productos.length === 0) {
+                productos = DEFAULT_PRODUCTS;
+            }
 
             productData = {};
             const categorias = {};
 
             productos.forEach(p => {
-                const key = `prod-${p.id_producto}`;
+                const id = parseInt(p.id_producto);
+                const key = `prod-${id}`;
+                const imgPath = p.imagen || PRODUCT_IMAGES[id] || 'imagenes/logo/logo.png';
                 productData[key] = {
-                    id_producto: parseInt(p.id_producto),
+                    id_producto: id,
                     id_categoria: parseInt(p.id_categoria),
                     title: p.nombre,
                     desc: p.descripcion || '',
                     price: `S/ ${parseFloat(p.precio).toFixed(2)}`,
                     priceNum: parseFloat(p.precio),
-                    img: `imagenes/${p.nombre}.jpg`,
+                    img: imgPath,
                     categoria: p.categoria_nombre
                 };
                 if (!categorias[p.id_categoria]) {
@@ -90,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.className = 'product-card fade-in';
                     card.dataset.product = key;
                     card.innerHTML = `
-                        <img src="${p.img}" alt="${p.title}">
+                        <img src="${p.img}" alt="${p.title}" onerror="this.onerror=null; this.src='imagenes/logo/logo.png';">
                         <div class="product-info">
                             <h4>${p.title}</h4>
                             <span class="product-price">${p.price}</span>
@@ -251,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = loginForm.querySelector('button[type="submit"]');
             if (btn) { btn.disabled = true; btn.textContent = 'Ingresando...'; }
             try {
-                const res = await fetch('api_auth.php?action=login', {
+                const res = await fetch('api/api_auth.php?action=login', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password: pass })
                 });
@@ -289,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = registerForm.querySelector('button[type="submit"]');
             if (btn) { btn.disabled = true; btn.textContent = 'Registrando...'; }
             try {
-                const res = await fetch('api_auth.php?action=register', {
+                const res = await fetch('api/api_auth.php?action=register', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ nombre, apellido, email, telefono, password: pass })
                 });
@@ -320,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = recoverForm.querySelector('button[type="submit"]');
             if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
             try {
-                const res = await fetch('api_auth.php?action=recuperar', {
+                const res = await fetch('api/api_auth.php?action=recuperar', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
                 });
@@ -378,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function logout() {
-        try { await fetch('api_auth.php?action=logout'); } catch (e) {}
+        try { await fetch('api/api_auth.php?action=logout'); } catch (e) {}
         localStorage.removeItem('ramen_user_session');
         updateLoginButton(null);
         const dropdown = document.getElementById('user-menu-dropdown');
@@ -392,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const cliente = JSON.parse(stored);
             updateLoginButton(cliente); // mostrar inmediatamente
-            const res = await fetch('api_auth.php?action=check');
+            const res = await fetch('api/api_auth.php?action=check');
             const data = await res.json();
             if (data.success && data.cliente) {
                 localStorage.setItem('ramen_user_session', JSON.stringify(data.cliente));
@@ -755,7 +825,7 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmOrderBtn.disabled = true;
 
         try {
-            const res = await fetch('api_pedidos.php', {
+            const res = await fetch('api/api_pedidos.php', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });

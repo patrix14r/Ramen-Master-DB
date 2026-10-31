@@ -25,7 +25,7 @@ CREATE TABLE Clientes (
     apellido VARCHAR(50) NOT NULL,
     correo VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    telefono VARCHAR(15)
+    telefono VARCHAR(9)
 );
 
 CREATE TABLE Categorias (
@@ -39,6 +39,7 @@ CREATE TABLE Productos (
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
     id_categoria INT NOT NULL,
+    imagen VARCHAR(255) NULL,
     disponible BOOLEAN DEFAULT 1,
     FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
 );
@@ -131,34 +132,34 @@ INSERT INTO Categorias (nombre_categoria) VALUES
 ('Ramen'), ('Sushi'), ('Arroz Frito'), ('Omelets');
 
 
-INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
-(1, 'Tonkotsu Ramen', 'Caldo de cerdo insignia (18h). Chashu, huevo ajitama, fideos frescos.', 32.00, 1, 1),
-(2, 'Shoyu Ramen', 'Caldo ligero a base de soya, con pollo, menma y espinaca.', 30.00, 1, 1),
-(3, 'Miso Ramen', 'Caldo a base de miso, con maíz, mantequilla y chashu.', 31.00, 1, 1),
-(4, 'Tantanmen (Picante)', 'Caldo cremoso y picante de sésamo con carne de cerdo molida.', 34.00, 1, 1),
-(5, 'Veggie Ramen', 'Caldo de vegetales y hongos shiitake, con tofu y verduras de estación.', 29.00, 1, 1);
+INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, imagen, disponible) VALUES 
+(1, 'Tonkotsu Ramen', 'Caldo de cerdo insignia (18h). Chashu, huevo ajitama, fideos frescos.', 32.00, 1, 'imagenes/ramen/tonkotsu-ramen.jpg', 1),
+(2, 'Shoyu Ramen', 'Caldo ligero a base de soya, con pollo, menma y espinaca.', 30.00, 1, 'imagenes/ramen/shoyu-ramen.jpg', 1),
+(3, 'Miso Ramen', 'Caldo a base de miso, con maíz, mantequilla y chashu.', 31.00, 1, 'imagenes/ramen/miso-ramen.jpg', 1),
+(4, 'Tantanmen (Picante)', 'Caldo cremoso y picante de sésamo con carne de cerdo molida.', 34.00, 1, 'imagenes/ramen/tantanmen.jpg', 1),
+(5, 'Veggie Ramen', 'Caldo de vegetales y hongos shiitake, con tofu y verduras de estación.', 29.00, 1, 'imagenes/ramen/veggie-ramen.jpg', 1);
 
 
-INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
-(6, 'Maki Acevichado', 'Relleno de langostino furai y palta, cubierto con atún y salsa acevichada.', 28.00, 2, 1),
-(7, 'California Roll', 'Clásico roll con palta, kani kama (cangrejo) y pepino, cubierto de sésamo.', 24.00, 2, 1),
-(8, 'Nigiri Salmón (2u)', 'Cortes frescos de salmón sobre arroz de sushi sazonado.', 12.00, 2, 1),
-(9, 'Maki Furai', 'Roll empanizado y frito, relleno de queso crema y salmón.', 26.00, 2, 1),
-(10, 'Sashimi Atún (5 cuts)', 'Cortes puros y frescos de atún, servidos con wasabi y kion.', 20.00, 2, 1);
+INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, imagen, disponible) VALUES 
+(6, 'Maki Acevichado', 'Relleno de langostino furai y palta, cubierto con atún y salsa acevichada.', 28.00, 2, 'imagenes/sushi/maki-acevichado.jpg', 1),
+(7, 'California Roll', 'Clásico roll con palta, kani kama (cangrejo) y pepino, cubierto de sésamo.', 24.00, 2, 'imagenes/sushi/california-roll.jpg', 1),
+(8, 'Nigiri Salmón (2u)', 'Cortes frescos de salmón sobre arroz de sushi sazonado.', 12.00, 2, 'imagenes/sushi/nigiri-salmon.jpg', 1),
+(9, 'Maki Furai', 'Roll empanizado y frito, relleno de queso crema y salmón.', 26.00, 2, 'imagenes/sushi/maki-furai.jpg', 1),
+(10, 'Sashimi Atún (5 cuts)', 'Cortes puros y frescos de atún, servidos con wasabi y kion.', 20.00, 2, 'imagenes/sushi/sashimi-atun.jpg', 1);
 
-INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
-(11, 'Chaufa de Pollo', 'Clásico arroz frito con trozos de pollo, tortilla y cebollita china.', 25.00, 3, 1),
-(12, 'Chaufa de Mariscos', 'Arroz frito saltado al wok con langostinos, calamar y conchas.', 35.00, 3, 1),
-(13, 'Chaufa Especial', 'Combinación de pollo, cerdo y langostinos en nuestro arroz frito.', 30.00, 3, 1),
-(14, 'Yakimeshi', 'Arroz frito japonés con verduras, mantequilla y un toque de soya.', 28.00, 3, 1),
-(15, 'Arroz Vegetariano', 'Arroz frito con hongos, tofu, brócoli y pimientos.', 24.00, 3, 1);
+INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, imagen, disponible) VALUES 
+(11, 'Chaufa de Pollo', 'Clásico arroz frito con trozos de pollo, tortilla y cebollita china.', 25.00, 3, 'imagenes/arroz/chaufa-de-pollo.png', 1),
+(12, 'Chaufa de Mariscos', 'Arroz frito saltado al wok con langostinos, calamar y conchas.', 35.00, 3, 'imagenes/arroz/chaufa-de-mariscos.webp', 1),
+(13, 'Chaufa Especial', 'Combinación de pollo, cerdo y langostinos en nuestro arroz frito.', 30.00, 3, 'imagenes/arroz/chaufa-especial.jpg', 1),
+(14, 'Yakimeshi', 'Arroz frito japonés con verduras, mantequilla y un toque de soya.', 28.00, 3, 'imagenes/arroz/yakimeshi.jpg', 1),
+(15, 'Arroz Vegetariano', 'Arroz frito con hongos, tofu, brócoli y pimientos.', 24.00, 3, 'imagenes/arroz/arroz-vegetariano.webp', 1);
 
-INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, disponible) VALUES 
-(16, 'Omelet de Cangrejo', 'Tortilla japonesa rellena de pulpa de cangrejo fresca.', 25.00, 4, 1),
-(17, 'Omurice Clásico', 'Omelet tierno sobre arroz frito, bañado en salsa demiglace.', 27.00, 4, 1),
-(18, 'Tamagoyaki (Dulce)', 'Clásica tortilla japonesa enrollada con un toque dulce.', 15.00, 4, 1),
-(19, 'Tortilla de Langostinos', 'Tortilla esponjosa con langostinos y cebollita china.', 29.00, 4, 1),
-(20, 'Omelet con Queso', 'Omelet relleno de queso mozzarella derretido.', 20.00, 4, 1);
+INSERT INTO Productos (id_producto, nombre_producto, descripcion, precio, id_categoria, imagen, disponible) VALUES 
+(16, 'Omelet de Cangrejo', 'Tortilla japonesa rellena de pulpa de cangrejo fresca.', 25.00, 4, 'imagenes/omelets/omelet-de-cangrejo.webp', 1),
+(17, 'Omurice Clásico', 'Omelet tierno sobre arroz frito, bañado en salsa demiglace.', 27.00, 4, 'imagenes/omelets/omurice-clasico.jpg', 1),
+(18, 'Tamagoyaki (Dulce)', 'Clásica tortilla japonesa enrollada con un toque dulce.', 15.00, 4, 'imagenes/omelets/tamagoyaki-dulce.webp', 1),
+(19, 'Tortilla de Langostinos', 'Tortilla esponjosa con langostinos y cebollita china.', 29.00, 4, 'imagenes/omelets/tortilla-de-langostinos.jpg', 1),
+(20, 'Omelet con Queso', 'Omelet relleno de queso mozzarella derretido.', 20.00, 4, 'imagenes/omelets/omelet-con-queso.jpg', 1);
 
 INSERT INTO Deliveries (id_delivery, id_repartidor, direccion_entrega, estado_envio) VALUES 
 (1, 1, 'Av. Los Ficus 456, Santa Anita', 'En camino'),
@@ -203,3 +204,4 @@ INSERT INTO Detalle_Pedidos (id_detalle, id_pedido, id_producto, cantidad, preci
 (9, 5, 4, 1, 34.00, 34.00); 
 INSERT INTO Checkout_Ordenes (id_pedido, id_metodo, id_descuento, monto_descuento, total_final, estado_pago) VALUES 
 (5, 1, NULL, 0.00, 34.00, 'Pagado');
+

@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Orden - Ramen Master</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&family=Rowdies:wght@400&family=Alatsi&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&family=Rowdies:wght@400&family=Alatsi&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -37,7 +39,7 @@
 
             <!-- COLUMNA DERECHA: LOGÍSTICA Y PAGO -->
             <section class="cart-col-right glass-panel">
-                
+
                 <div class="checkout-section">
                     <h3>1. Tipo de Entrega</h3>
                     <div class="tipo-entrega-options delivery-cards-grid">
@@ -58,8 +60,10 @@
                     </div>
 
                     <div class="delivery-fields" id="delivery-fields">
-                        <input type="text" id="delivery-address" class="delivery-input" placeholder="📍 Dirección completa de entrega">
-                        <input type="tel" id="delivery-phone" class="delivery-input" placeholder="📞 Teléfono de contacto (Ej: 987654321)">
+                        <input type="text" id="delivery-address" class="delivery-input"
+                            placeholder="📍 Dirección completa de entrega">
+                        <input type="tel" id="delivery-phone" class="delivery-input"
+                            placeholder="📞 Teléfono de contacto (Ej: 987654321)">
                     </div>
                 </div>
 
@@ -69,21 +73,24 @@
                         <label class="payment-card-label">
                             <input type="radio" name="payment" value="1" checked>
                             <span class="payment-card-content">
-                                <img src="imagenes/icono_tarjeta.webp" alt="Tarjeta" style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
+                                <img src="imagenes/iconos/icono_tarjeta.webp" alt="Tarjeta"
+                                    style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
                                 <span>Tarjeta</span>
                             </span>
                         </label>
                         <label class="payment-card-label">
                             <input type="radio" name="payment" value="2">
                             <span class="payment-card-content">
-                                <img src="imagenes/icono_yape.png" alt="Yape" style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
+                                <img src="imagenes/iconos/icono_yape.png" alt="Yape"
+                                    style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
                                 <span>Yape/Plin</span>
                             </span>
                         </label>
                         <label class="payment-card-label">
                             <input type="radio" name="payment" value="3">
                             <span class="payment-card-content">
-                                <img src="imagenes/icono_efectivo.webp" alt="Efectivo" style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
+                                <img src="imagenes/iconos/icono_efectivo.webp" alt="Efectivo"
+                                    style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
                                 <span>Efectivo</span>
                             </span>
                         </label>
@@ -92,8 +99,9 @@
 
                 <div class="checkout-section total-breakdown">
                     <h3>Resumen Financiero</h3>
-                    
-                    <div id="welcome-discount-badge" class="auth-msg success" style="display: none; margin-bottom: 15px;">
+
+                    <div id="welcome-discount-badge" class="auth-msg success"
+                        style="display: none; margin-bottom: 15px;">
                         <i class="fas fa-gift"></i> ¡Cupón BIENVENIDA_RAMEN aplicado! (15% dscto)
                     </div>
 
@@ -130,7 +138,7 @@
     <div class="modal-container" id="login-modal">
         <div class="login-form-container">
             <button class="modal-close" id="login-modal-close-btn">&times;</button>
-            
+
             <form id="login-form" class="login-form-content active">
                 <h2><b>Iniciar Sesión</b></h2>
                 <div class="auth-msg" id="login-msg"></div>
@@ -201,6 +209,7 @@
 
     <!-- Indicador de que estamos en la página del carrito para script.js -->
     <script>window.isCarritoPage = true;</script>
-    <script src="script.js" defer></script>
+    <script src="js/script.js" defer></script>
 </body>
+
 </html>

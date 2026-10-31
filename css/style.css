@@ -236,7 +236,7 @@ button {
   display: flex;
   align-items: center;
   padding: 60px 0;
-  background: url("imagenes/fondo.jpg") no-repeat center center/cover;
+  background: url("../imagenes/fondos/fondo.jpg") no-repeat center center/cover;
 }
 
 .hero-overlay {
@@ -1192,7 +1192,7 @@ button {
 #menu {
   position: relative;
   /* Cambia esto por tu imagen real */
-  background-image: url("imagenes/productos.png");
+  background-image: url("../imagenes/fondos/productos.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* Efecto: La imagen se queda quieta al bajar */
@@ -1220,7 +1220,7 @@ button {
 .contact-section {
   position: relative;
 
-  background-image: url("imagenes/contactanos.png");
+  background-image: url("../imagenes/fondos/contactanos.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -1286,7 +1286,7 @@ button {
 #especialidades-bg {
   position: relative;
   /* 1. Aquí pones la imagen que quieras de fondo (asegúrate que exista en tu carpeta) */
-  background-image: url("imagenes/productos.png");
+  background-image: url("../imagenes/fondos/productos.png");
 
   /* 2. Estos trucos hacen que se vea profesional */
   background-size: cover; /* La imagen cubre todo */
@@ -2617,7 +2617,7 @@ input.cart-modifier::placeholder {
 
 /* --- ESTILOS CARRITO.HTML PANTALLA COMPLETA --- */
 .page-carrito {
-  background: linear-gradient(rgba(15, 15, 18, 0.8), rgba(15, 15, 18, 0.8)), url('imagenes/fondo_carrito.jpg');
+  background: linear-gradient(rgba(15, 15, 18, 0.8), rgba(15, 15, 18, 0.8)), url('../imagenes/fondos/fondo_carrito.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
