@@ -1,3 +1,11 @@
 .DS_Store
 *.log
 *.pid
+node_modules/
+.env
+frontend/dist/
+frontend/.astro/
+frontend/.env
+it
+CLAUDE.md
+README.md

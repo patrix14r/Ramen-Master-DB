@@ -1,0 +1,67 @@
+/* ============================================================
+   global.css — Estilos globales y tokens de diseño "Dark Nikkei"
+   ============================================================ */
+@import 'tailwindcss';
+
+/* Tokens de diseño (Tailwind v4): generan clases como bg-ink, bg-surface,
+   text-bone y bg-crimson. Regla 60-30-10: base (60), superficie (30),
+   carmesí (10, solo CTA principal y badges activos). */
+@theme {
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; /* única tipografía */
+  --color-ink: #0b0b0e; /* fondo global continuo */
+  --color-surface: #141419; /* tarjetas y paneles */
+  --color-bone: #f4f4f6; /* títulos: blanco hueso */
+  --color-crimson: #d92d20; /* acento: solo CTA y badges activos */
+}
+
+/* Fondo único para toda la web: sin franjas ni cambios bruscos. */
+html {
+  background-color: var(--color-ink);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+body {
+  background-color: var(--color-ink);
+  color: rgb(244 244 246 / 0.72);
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visible y consistente para teclado. */
+:focus-visible {
+  outline: 2px solid rgb(244 244 246 / 0.6);
+  outline-offset: 2px;
+}
+
+/* ---------- Componentes reutilizables ---------- */
+@layer components {
+  /* Contenedor estándar de contenido. */
+  .contenedor {
+    @apply mx-auto w-full max-w-7xl px-6;
+  }
+  /* Tarjeta/superficie con borde sutil. */
+  .tarjeta {
+    @apply rounded-2xl border border-white/10 bg-surface;
+  }
+  /* Botón principal (CTA): único lugar con carmesí sólido. */
+  .btn-cta {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-2.5 text-sm font-bold tracking-tight text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  /* Botón secundario: ghost/outline. */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium tracking-tight text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  /* Campos de formulario. */
+  .campo {
+    @apply w-full rounded-xl border border-white/10 bg-ink px-3.5 py-2.5 text-sm font-medium text-bone placeholder:font-light placeholder:text-white/40 focus:border-white/30 focus:outline-none;
+  }
+  .etiqueta {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50;
+  }
+}
+
+/* ---------- Swiper: ajustes mínimos para el tema oscuro ---------- */
+.swiper {
+  padding-bottom: 4px;
+}

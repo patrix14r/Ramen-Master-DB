@@ -1,0 +1,11 @@
+---
+// Perfil del cliente: datos, direcciones, pedidos y favoritos.
+import MainLayout from '../layouts/MainLayout.astro';
+import ProfileManager from '../components/ProfileManager.jsx';
+---
+
+<MainLayout titulo="Mi cuenta" descripcion="Tus datos, direcciones, pedidos y platos favoritos.">
+  <section class="contenedor py-10">
+    <ProfileManager client:load />
+  </section>
+</MainLayout>

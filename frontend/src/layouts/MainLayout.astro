@@ -1,0 +1,44 @@
+---
+// ============================================================
+// MainLayout.astro — Plantilla base de TODAS las páginas
+// ============================================================
+// Incluye el <head> (tipografía, estilos), el Header (con carrito,
+// favoritos, buscador y perfil) y el Footer. Cada página solo aporta
+// su contenido dentro de <slot />.
+import '../styles/global.css';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.astro';
+
+const { titulo = 'Ramen Master', descripcion = 'Cocina nikkei: ramen, sushi, arroz frito y omelets.' } =
+  Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content="#0B0B0E" />
+    <title>{titulo === 'Ramen Master' ? titulo : `${titulo} | Ramen Master`}</title>
+
+    <!-- Única tipografía de toda la web: Plus Jakarta Sans (solo cambian los pesos) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <!-- Header interactivo (isla React): se hidrata en cuanto carga la página -->
+    <Header client:load ruta={Astro.url.pathname} />
+
+    <!-- flex-1 empuja el footer al fondo aunque la página tenga poco contenido -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

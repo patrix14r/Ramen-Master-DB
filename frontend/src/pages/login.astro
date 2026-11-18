@@ -1,0 +1,11 @@
+---
+// Inicio de sesión y registro con JWT.
+import MainLayout from '../layouts/MainLayout.astro';
+import AuthForms from '../components/AuthForms.jsx';
+---
+
+<MainLayout titulo="Ingresar" descripcion="Inicia sesión o crea tu cuenta de Ramen Master.">
+  <section class="contenedor py-10">
+    <AuthForms client:load />
+  </section>
+</MainLayout>

@@ -1,0 +1,15 @@
+---
+// Carta completa con filtros, orden y favoritos.
+import MainLayout from '../layouts/MainLayout.astro';
+import CatalogView from '../components/CatalogView.jsx';
+---
+
+<MainLayout titulo="Carta" descripcion="Ramen, sushi, arroz frito y omelets de cocina nikkei.">
+  <section class="contenedor py-10">
+    <header class="mb-6">
+      <h1 class="text-3xl font-bold tracking-tight text-bone">Nuestra carta</h1>
+      <p class="mt-1 text-sm font-light">Elige un plato y personalízalo a tu gusto.</p>
+    </header>
+    <CatalogView client:load />
+  </section>
+</MainLayout>

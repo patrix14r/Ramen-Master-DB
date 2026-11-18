@@ -1,0 +1,79 @@
+// Controller de pedidos: valida el body y delega la lógica al model.
+const pedidoModel = require('../models/pedido.model');
+const ApiError = require('../utils/ApiError');
+
+const TIPOS_ENTREGA = ['Delivery', 'Retiro en tienda'];
+
+// Redondea a 2 decimales.
+const redondear = (n) => Math.round(n * 100) / 100;
+
+// Valida y normaliza la lista de items; lanza ApiError(400) si algo es inválido.
+function normalizarItems(items) {
+  if (!Array.isArray(items) || items.length === 0) throw new ApiError(400, 'El pedido no tiene productos');
+  if (items.length > 50) throw new ApiError(400, 'Demasiados productos en el pedido');
+
+  return items.map((item) => {
+    const idProducto = Number(item?.id_producto);
+    const cantidad = Number(item?.cantidad);
+    if (!Number.isInteger(idProducto) || idProducto <= 0) throw new ApiError(400, 'id_producto inválido');
+    if (!Number.isInteger(cantidad) || cantidad < 1 || cantidad > 50) {
+      throw new ApiError(400, 'La cantidad debe ser un entero entre 1 y 50');
+    }
+
+    // Notas libres para cocina (máximo 255, como la columna).
+    const notas = typeof item.notas === 'string' ? item.notas.trim() : '';
+    if (notas.length > 255) throw new ApiError(400, 'Las notas superan 255 caracteres');
+
+    // Personalización estructurada: debe ser un objeto JSON.
+    let personalizacion = null;
+    if (item.personalizacion !== undefined && item.personalizacion !== null) {
+      if (typeof item.personalizacion !== 'object' || Array.isArray(item.personalizacion)) {
+        throw new ApiError(400, 'personalizacion debe ser un objeto');
+      }
+      personalizacion = item.personalizacion;
+    }
+
+    // Extras con precio: [{ opcion, precio_adicional }].
+    const extrasEntrada = item.extras ?? [];
+    if (!Array.isArray(extrasEntrada) || extrasEntrada.length > 20) throw new ApiError(400, 'extras inválidos');
+    const extras = extrasEntrada.map((extra) => {
+      const opcion = typeof extra?.opcion === 'string' ? extra.opcion.trim() : '';
+      const precio = Number(extra?.precio_adicional ?? 0);
+      if (!opcion || opcion.length > 100) throw new ApiError(400, 'Extra inválido');
+      if (!Number.isFinite(precio) || precio < 0 || precio > 1000) throw new ApiError(400, 'Precio de extra inválido');
+      return { opcion, precio_adicional: redondear(precio) };
+    });
+
+    return { idProducto, cantidad, notas: notas || null, personalizacion, extras };
+  });
+}
+
+// POST /api/pedidos (requiere token)
+exports.crear = async (req, res) => {
+  const { tipo_entrega: tipoEntrega, direccion_entrega, id_metodo } = req.body;
+
+  // Validar la cabecera del pedido.
+  if (!TIPOS_ENTREGA.includes(tipoEntrega)) {
+    throw new ApiError(400, `tipo_entrega debe ser: ${TIPOS_ENTREGA.join(' o ')}`);
+  }
+  const direccion = typeof direccion_entrega === 'string' ? direccion_entrega.trim() : '';
+  if (tipoEntrega === 'Delivery' && (!direccion || direccion.length > 255)) {
+    throw new ApiError(400, 'La dirección de entrega es obligatoria para Delivery');
+  }
+  const idMetodo = Number(id_metodo);
+  if (!Number.isInteger(idMetodo) || idMetodo <= 0) throw new ApiError(400, 'id_metodo inválido');
+
+  const resultado = await pedidoModel.crear({
+    idCliente: req.idCliente,
+    tipoEntrega,
+    direccion,
+    idMetodo,
+    items: normalizarItems(req.body.items),
+  });
+  res.status(201).json({ success: true, ...resultado });
+};
+
+// GET /api/pedidos (requiere token)
+exports.historial = async (req, res) => {
+  res.json(await pedidoModel.historial(req.idCliente));
+};

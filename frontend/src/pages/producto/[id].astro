@@ -1,0 +1,91 @@
+---
+// Detalle de un plato (SSR): foto, historia, ingredientes, personalización y platos similares.
+export const prerender = false;
+
+import { ChevronRight } from 'lucide-react';
+import MainLayout from '../../layouts/MainLayout.astro';
+import ProductCustomizer from '../../components/ProductCustomizer.jsx';
+import Similares from '../../components/Similares.jsx';
+import SeccionTitulo from '../../components/SeccionTitulo.astro';
+import { API_URL, etiquetaCategoria } from '../../lib/config';
+
+const { id } = Astro.params;
+let producto = null;
+let similares = [];
+
+// Pide el plato y sus similares al backend (solo si el id es numérico).
+if (id && /^\d+$/.test(id)) {
+  try {
+    const [r1, r2] = await Promise.all([
+      fetch(`${API_URL}/api/productos/${id}`),
+      fetch(`${API_URL}/api/productos/${id}/similares`),
+    ]);
+    if (r1.ok) producto = await r1.json();
+    if (r2.ok) similares = await r2.json();
+  } catch {
+    /* backend caído: se mostrará el aviso de "no disponible" */
+  }
+}
+
+// Si no existe, responde con 404 real.
+if (!producto) Astro.response.status = 404;
+const ingredientes = Array.isArray(producto?.ingredientes) ? producto.ingredientes : [];
+---
+
+<MainLayout titulo={producto ? producto.nombre : 'Plato no encontrado'} descripcion={producto ? producto.descripcion : undefined}>
+  <section class="contenedor py-8 lg:py-10">
+    {
+      producto ? (
+        <>
+          <nav aria-label="Ruta" class="mb-6 flex flex-wrap items-center gap-1.5 text-sm font-light">
+            <a href="/productos" class="hover:text-white">Carta</a>
+            <ChevronRight size={14} strokeWidth={1.5} />
+            <a href={`/productos?categoria=${producto.id_categoria}`} class="hover:text-white">
+              {etiquetaCategoria(producto.categoria_nombre)}
+            </a>
+            <ChevronRight size={14} strokeWidth={1.5} />
+            <span class="text-bone">{producto.nombre}</span>
+          </nav>
+
+          <ProductCustomizer client:load producto={producto} />
+
+          {/* Historia e ingredientes del plato */}
+          {(producto.historia || ingredientes.length > 0) && (
+            <div class="mt-10 grid gap-4 md:grid-cols-2">
+              {producto.historia && (
+                <section class="tarjeta p-6">
+                  <h2 class="text-lg font-bold tracking-tight text-bone">La historia del plato</h2>
+                  <p class="mt-3 text-sm font-light leading-relaxed">{producto.historia}</p>
+                </section>
+              )}
+              {ingredientes.length > 0 && (
+                <section class="tarjeta p-6">
+                  <h2 class="text-lg font-bold tracking-tight text-bone">Ingredientes</h2>
+                  <ul class="mt-3 flex flex-wrap gap-2">
+                    {ingredientes.map((i) => (
+                      <li class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm font-medium text-bone">{i}</li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+            </div>
+          )}
+
+          {/* Platos similares */}
+          {similares.length > 0 && (
+            <section class="py-10 lg:py-14">
+              <SeccionTitulo titulo="Platos similares" subtitulo="Otras opciones de la misma categoría." />
+              <Similares client:visible productos={similares} />
+            </section>
+          )}
+        </>
+      ) : (
+        <div class="tarjeta mx-auto max-w-lg p-8 text-center">
+          <h1 class="text-2xl font-bold tracking-tight text-bone">Plato no disponible</h1>
+          <p class="mt-2 text-sm font-light">No encontramos este plato. Puede que ya no esté en la carta.</p>
+          <a href="/productos" class="btn-cta mt-5">Volver a la carta</a>
+        </div>
+      )
+    }
+  </section>
+</MainLayout>
