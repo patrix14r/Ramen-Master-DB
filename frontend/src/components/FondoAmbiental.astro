@@ -1,0 +1,8 @@
+---
+// Fondo ambiental reutilizable: foto con blur sutil y velo oscuro detrás del contenido.
+import { imgUrl } from '../lib/config';
+const { imagen, velo = 'bg-black/70' } = Astro.props;
+---
+
+<div class="absolute inset-0 -z-20 scale-105 bg-cover bg-center blur-[2px]" style={`background-image:url('${imgUrl(imagen)}')`}></div>
+<div class={`absolute inset-0 -z-10 ${velo}`}></div>

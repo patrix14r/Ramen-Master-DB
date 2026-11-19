@@ -1,14 +1,16 @@
 ---
-// ============================================================
-// carrito.astro — Carrito y checkout (con Header y Footer del layout)
-// ============================================================
+// Carrito y checkout sobre fondo ambiental para resaltar el cristal de las tarjetas.
 import MainLayout from '../layouts/MainLayout.astro';
 import CheckoutManager from '../components/CheckoutManager.jsx';
+import FondoAmbiental from '../components/FondoAmbiental.astro';
 ---
 
 <MainLayout titulo="Carrito" descripcion="Revisa tu pedido y confirma la entrega y el pago.">
-  <section class="contenedor py-10">
-    <h1 class="mb-6 text-3xl font-bold tracking-tight text-bone">Carrito</h1>
-    <CheckoutManager client:load />
+  <section class="relative isolate overflow-hidden">
+    <FondoAmbiental imagen="imagenes/fondos/fondo.jpg" velo="bg-black/75" />
+    <div class="contenedor py-8 sm:py-10">
+      <h1 class="mb-6 text-3xl font-bold tracking-tight text-bone">Carrito</h1>
+      <CheckoutManager client:load />
+    </div>
   </section>
 </MainLayout>

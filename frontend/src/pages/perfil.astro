@@ -1,11 +1,15 @@
 ---
-// Perfil del cliente: datos, direcciones, pedidos y favoritos.
+// Perfil del cliente (datos, direcciones, pedidos y favoritos) sobre fondo ambiental.
 import MainLayout from '../layouts/MainLayout.astro';
 import ProfileManager from '../components/ProfileManager.jsx';
+import FondoAmbiental from '../components/FondoAmbiental.astro';
 ---
 
 <MainLayout titulo="Mi cuenta" descripcion="Tus datos, direcciones, pedidos y platos favoritos.">
-  <section class="contenedor py-10">
-    <ProfileManager client:load />
+  <section class="relative isolate overflow-hidden">
+    <FondoAmbiental imagen="imagenes/fondos/contactanos.png" velo="bg-black/65" />
+    <div class="contenedor py-8 sm:py-10">
+      <ProfileManager client:load />
+    </div>
   </section>
 </MainLayout>

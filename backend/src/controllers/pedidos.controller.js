@@ -1,11 +1,9 @@
 // Controller de pedidos: valida el body y delega la lógica al model.
 const pedidoModel = require('../models/pedido.model');
 const ApiError = require('../utils/ApiError');
+const { redondear } = require('../utils/helpers');
 
 const TIPOS_ENTREGA = ['Delivery', 'Retiro en tienda'];
-
-// Redondea a 2 decimales.
-const redondear = (n) => Math.round(n * 100) / 100;
 
 // Valida y normaliza la lista de items; lanza ApiError(400) si algo es inválido.
 function normalizarItems(items) {

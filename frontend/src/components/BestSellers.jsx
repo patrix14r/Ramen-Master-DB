@@ -5,7 +5,7 @@ import { A11y, FreeMode } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
-import ProductCard from './ProductCard.jsx';
+import TarjetaVisual from './TarjetaVisual.jsx';
 import Esqueleto from './Esqueleto.jsx';
 import { listarProductos } from '../lib/api';
 
@@ -54,7 +54,7 @@ export default function BestSellers() {
       >
         {productos.map((p) => (
           <SwiperSlide key={p.id_producto} className="!h-auto">
-            <ProductCard producto={p} />
+            <TarjetaVisual producto={p} />
           </SwiperSlide>
         ))}
       </Swiper>

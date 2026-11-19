@@ -1,6 +1,6 @@
 // Perfil del cliente con pestañas (la activa vive en el hash de la URL).
 import { useEffect, useRef, useState } from 'react';
-import { Heart, LogOut, MapPin, Receipt, Trash2, UserRound } from 'lucide-react';
+import { ChevronDown, Heart, LogOut, MapPin, Receipt, Trash2, UserRound } from 'lucide-react';
 import ProductCard from './ProductCard.jsx';
 import { api } from '../lib/api';
 import { dinero, imgUrl } from '../lib/config';
@@ -27,7 +27,10 @@ const PESTANAS = [
 function Aviso({ aviso }) {
   if (!aviso) return null;
   return (
-    <p role={aviso.error ? 'alert' : 'status'} className="rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-bone">
+    <p
+      role={aviso.error ? 'alert' : 'status'}
+      className="rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-bone"
+    >
       {aviso.texto}
     </p>
   );
@@ -65,20 +68,42 @@ function PestanaDatos({ cliente }) {
     <form onSubmit={guardar} className="tarjeta max-w-xl space-y-4 p-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="etiqueta" htmlFor="p-nombre">Nombre</label>
-          <input id="p-nombre" name="nombre" defaultValue={cliente.nombre} required maxLength={50} className="campo" />
+          <label className="etiqueta" htmlFor="p-nombre">
+            Nombre
+          </label>
+          <input
+            id="p-nombre"
+            name="nombre"
+            defaultValue={cliente.nombre}
+            required
+            maxLength={50}
+            className="campo"
+          />
         </div>
         <div>
-          <label className="etiqueta" htmlFor="p-apellido">Apellido</label>
-          <input id="p-apellido" name="apellido" defaultValue={cliente.apellido} required maxLength={50} className="campo" />
+          <label className="etiqueta" htmlFor="p-apellido">
+            Apellido
+          </label>
+          <input
+            id="p-apellido"
+            name="apellido"
+            defaultValue={cliente.apellido}
+            required
+            maxLength={50}
+            className="campo"
+          />
         </div>
       </div>
       <div>
-        <label className="etiqueta" htmlFor="p-email">Correo electrónico</label>
+        <label className="etiqueta" htmlFor="p-email">
+          Correo electrónico
+        </label>
         <input id="p-email" value={cliente.email} disabled className="campo opacity-60" />
       </div>
       <div>
-        <label className="etiqueta" htmlFor="p-tel">Teléfono</label>
+        <label className="etiqueta" htmlFor="p-tel">
+          Teléfono
+        </label>
         <input
           id="p-tel"
           name="telefono"
@@ -94,12 +119,29 @@ function PestanaDatos({ cliente }) {
         <legend className="etiqueta !mb-0 pr-2">Cambiar contraseña (opcional)</legend>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="etiqueta" htmlFor="p-actual">Actual</label>
-            <input id="p-actual" name="password_actual" type="password" autoComplete="current-password" className="campo" />
+            <label className="etiqueta" htmlFor="p-actual">
+              Actual
+            </label>
+            <input
+              id="p-actual"
+              name="password_actual"
+              type="password"
+              autoComplete="current-password"
+              className="campo"
+            />
           </div>
           <div>
-            <label className="etiqueta" htmlFor="p-nueva">Nueva</label>
-            <input id="p-nueva" name="password_nueva" type="password" minLength={8} autoComplete="new-password" className="campo" />
+            <label className="etiqueta" htmlFor="p-nueva">
+              Nueva
+            </label>
+            <input
+              id="p-nueva"
+              name="password_nueva"
+              type="password"
+              minLength={8}
+              autoComplete="new-password"
+              className="campo"
+            />
           </div>
         </div>
       </fieldset>
@@ -171,7 +213,10 @@ function PestanaPedidos() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    api.historial().then(setPedidos).catch((e) => setError(e.message));
+    api
+      .historial()
+      .then(setPedidos)
+      .catch((e) => setError(e.message));
   }, []);
 
   if (error) return <p className="tarjeta p-5 text-sm">{error}</p>;
@@ -180,55 +225,71 @@ function PestanaPedidos() {
     return (
       <div className="tarjeta p-6 text-sm font-light">
         Todavía no hiciste ningún pedido.{' '}
-        <a href="/productos" className="font-medium text-bone underline underline-offset-4">Ver la carta</a>
+        <a href="/productos" className="font-medium text-bone underline underline-offset-4">
+          Ver la carta
+        </a>
       </div>
     );
   }
 
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-3">
       {pedidos.map((p) => (
-        <li key={p.id_pedido} className="tarjeta p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 className="text-base font-bold tracking-tight text-bone">Pedido #{p.id_pedido}</h3>
-              <p className="text-sm font-light">
-                {p.tipo_entrega}
-                {p.direccion_entrega ? ` · ${p.direccion_entrega}` : ''}
-                {p.metodo_pago ? ` · ${p.metodo_pago}` : ''}
-              </p>
+        <li key={p.id_pedido} className="tarjeta">
+          {/* Cada pedido es un desplegable: resumen compacto y detalle al abrir */}
+          <details className="group">
+            <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-3 px-5 py-4 [&::-webkit-details-marker]:hidden">
+              <div className="min-w-0">
+                <h3 className="text-base font-bold tracking-tight text-bone">Pedido #{p.id_pedido}</h3>
+                <p className="truncate text-xs font-light">
+                  {p.items.length} {p.items.length === 1 ? 'plato' : 'platos'} · {p.tipo_entrega}
+                  {p.metodo_pago ? ` · ${p.metodo_pago}` : ''}
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                {/* Estado en neutro: el carmesí se reserva para el CTA */}
+                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-bone">
+                  {p.estado_preparacion}
+                </span>
+                <span className="text-base font-bold tracking-tight text-bone">{dinero(p.total_final)}</span>
+                <ChevronDown size={18} strokeWidth={1.5} className="transition group-open:rotate-180" />
+              </div>
+            </summary>
+
+            <div className="border-t border-white/10 px-5 pb-4">
+              {p.direccion_entrega && (
+                <p className="pt-3 text-xs font-light">Entrega en: {p.direccion_entrega}</p>
+              )}
+              <ul className="divide-y divide-white/10">
+                {p.items.map((i) => (
+                  <li key={i.id_detalle} className="flex items-center gap-3 py-2.5">
+                    <img
+                      src={imgUrl(i.imagen)}
+                      alt=""
+                      className="h-10 w-10 shrink-0 rounded-lg object-cover"
+                      loading="lazy"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-bone">
+                        {i.cantidad} x {i.nombre}
+                      </p>
+                      <p className="truncate text-xs font-light">
+                        {[i.personalizacion?.picante, ...i.extras.map((e) => e.opcion), i.notas]
+                          .filter(Boolean)
+                          .join(' · ') || 'Sin personalización'}
+                      </p>
+                    </div>
+                    <span className="text-sm font-medium text-bone">{dinero(i.subtotal)}</span>
+                  </li>
+                ))}
+              </ul>
+              {p.monto_descuento > 0 && (
+                <p className="border-t border-white/10 pt-2 text-right text-xs font-light">
+                  Descuento aplicado: {dinero(p.monto_descuento)}
+                </p>
+              )}
             </div>
-            {/* Estado en neutro: el carmesí se reserva para el CTA */}
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-bone">
-              {p.estado_preparacion}
-            </span>
-          </div>
-
-          <ul className="mt-3 divide-y divide-white/10 border-t border-white/10">
-            {p.items.map((i) => (
-              <li key={i.id_detalle} className="flex items-center gap-3 py-3">
-                <img src={imgUrl(i.imagen)} alt="" className="h-12 w-12 shrink-0 rounded-lg object-cover" loading="lazy" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-bone">
-                    {i.cantidad} x {i.nombre}
-                  </p>
-                  <p className="truncate text-xs font-light">
-                    {[i.personalizacion?.picante, ...i.extras.map((e) => e.opcion), i.notas]
-                      .filter(Boolean)
-                      .join(' · ') || 'Sin personalización'}
-                  </p>
-                </div>
-                <span className="text-sm font-medium text-bone">{dinero(i.subtotal)}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="flex items-baseline justify-between border-t border-white/10 pt-3">
-            <span className="text-xs font-medium uppercase tracking-wider text-white/50">
-              Total{p.monto_descuento > 0 ? ` (desc. ${dinero(p.monto_descuento)})` : ''}
-            </span>
-            <span className="text-lg font-bold tracking-tight text-bone">{dinero(p.total_final)}</span>
-          </div>
+          </details>
         </li>
       ))}
     </ul>
@@ -242,7 +303,10 @@ function PestanaFavoritos() {
   const { ids } = useFavoritos();
 
   useEffect(() => {
-    api.favoritos().then(setLista).catch((e) => setError(e.message));
+    api
+      .favoritos()
+      .then(setLista)
+      .catch((e) => setError(e.message));
   }, []);
 
   if (error) return <p className="tarjeta p-5 text-sm">{error}</p>;
@@ -254,12 +318,15 @@ function PestanaFavoritos() {
     return (
       <div className="tarjeta p-6 text-sm font-light">
         No tienes platos favoritos todavía. Toca el corazón en cualquier plato de la{' '}
-        <a href="/productos" className="font-medium text-bone underline underline-offset-4">carta</a>.
+        <a href="/productos" className="font-medium text-bone underline underline-offset-4">
+          carta
+        </a>
+        .
       </div>
     );
   }
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {visibles.map((p) => (
         <ProductCard key={p.id_producto} producto={p} />
       ))}
@@ -290,7 +357,10 @@ export default function ProfileManager() {
   // Con sesión, refrescamos el perfil (valida el token y trae datos al día).
   useEffect(() => {
     if (!token) return;
-    api.perfil().then((r) => actualizarCliente(r.cliente)).catch(() => {});
+    api
+      .perfil()
+      .then((r) => actualizarCliente(r.cliente))
+      .catch(() => {});
   }, [token]);
 
   function elegir(id) {
@@ -306,15 +376,14 @@ export default function ProfileManager() {
   }, [montado, token, cliente]);
 
   // Mientras se lee la sesión guardada (o se redirige) se muestra un esqueleto.
-  if (!montado || !token || !cliente) return <div className="tarjeta mx-auto h-72 max-w-md animate-pulse" aria-busy="true" />;
+  if (!montado || !token || !cliente)
+    return <div className="tarjeta mx-auto h-72 max-w-md animate-pulse" aria-busy="true" />;
 
   return (
-    <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+    <div className="mx-auto max-w-4xl">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-bone">
-            Hola, {cliente.nombre}
-          </h1>
+          <h1 className="text-3xl font-bold tracking-tight text-bone">Hola, {cliente.nombre}</h1>
           <p className="text-sm font-light">{cliente.email}</p>
         </div>
         <button
@@ -331,7 +400,7 @@ export default function ProfileManager() {
       </div>
 
       {/* Pestañas (el activo es un badge carmesí) */}
-      <div role="tablist" aria-label="Secciones del perfil" className="mb-6 flex flex-wrap gap-2">
+      <div role="tablist" aria-label="Secciones del perfil" className="mb-5 flex flex-wrap gap-2">
         {PESTANAS.map(({ id, texto, Icono }) => {
           const activa = pestana === id;
           return (

@@ -1,94 +1,88 @@
 ---
-// Contáctanos: formulario, horarios, ubicación en Lima y preguntas frecuentes.
+// Contáctanos: fondo nocturno con bokeh, tarjetas de cristal, mapa compacto y formulario.
 import { ChevronDown, Clock, MapPin, Phone } from 'lucide-react';
 import MainLayout from '../layouts/MainLayout.astro';
 import ContactForm from '../components/ContactForm.jsx';
+import { imgUrl } from '../lib/config';
 
-// Sedes de la tabla Sedes con su horario de atención.
-const sedes = [
-  { nombre: 'Sede Santa Anita', direccion: 'Av. Cascanueces 2221-2233, Santa Anita', telefono: '+51 942 888 275' },
-  { nombre: 'Sede Miraflores', direccion: 'Av. Larco 123, Miraflores', telefono: '+51 999 888 777' },
+// Datos de la sede principal en una fila de 3 tarjetas.
+const datos = [
+  { icono: MapPin, titulo: 'Dirección', texto: 'Av. Cascanueces 2221-2233 Santa Anita' },
+  { icono: Phone, titulo: 'Reservas', texto: '+51 942 888 275' },
+  { icono: Clock, titulo: 'Horario', texto: 'Lun-Dom: 12pm - 11pm' },
 ];
 
-// Preguntas frecuentes (los textos reflejan las reglas reales del negocio).
+// Preguntas frecuentes (reflejan las reglas reales del negocio).
 const preguntas = [
   { p: '¿Cuánto cuesta el delivery?', r: 'El envío tiene un costo fijo de S/ 5.00. Si prefieres, puedes recoger tu pedido en tienda sin costo.' },
   { p: '¿Hay descuento en la primera compra?', r: 'Sí. Tu primer pedido incluye un 15% de descuento sobre el subtotal de los platos, aplicado automáticamente.' },
   { p: '¿Qué métodos de pago aceptan?', r: 'Tarjeta de crédito o débito, Yape o Plin y efectivo al recibir tu pedido.' },
-  { p: '¿Puedo personalizar mi plato?', r: 'Sí. En la ficha de cada plato eliges el nivel de picante, agregas extras como chashu o palta y dejas notas para cocina.' },
-  { p: '¿Cuánto demora mi pedido?', r: 'Cocinamos al momento. Puedes seguir el estado de tu pedido desde tu perfil, en la sección Pedidos.' },
+  { p: '¿Necesito una cuenta para pedir?', r: 'Sí. Puedes armar tu carrito libremente, pero para confirmar el pedido debes iniciar sesión.' },
 ];
 ---
 
 <MainLayout titulo="Contáctanos" descripcion="Horarios, ubicación en Lima y formulario de contacto de Ramen Master.">
-  <section class="contenedor py-10">
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold tracking-tight text-bone">Contáctanos</h1>
-      <p class="mt-1 text-sm font-light">Escríbenos o visítanos en cualquiera de nuestras sedes en Lima.</p>
-    </header>
+  <section class="relative isolate overflow-hidden">
+    <!-- Foto nocturna con velo oscuro para legibilidad -->
+    <div class="absolute inset-0 -z-20 bg-cover bg-center bg-fixed" style={`background-image:url('${imgUrl('imagenes/fondos/contactanos.png')}')`}></div>
+    <div class="absolute inset-0 -z-10 bg-black/60"></div>
 
-    <div class="grid gap-6 lg:grid-cols-12">
-      <!-- Formulario -->
-      <div class="lg:col-span-7">
-        <h2 class="mb-3 text-lg font-bold tracking-tight text-bone">Envíanos un mensaje</h2>
-        <ContactForm client:load />
+    <div class="contenedor py-8 sm:py-12">
+      <header class="mb-8 text-center">
+        <h1 class="text-3xl font-extrabold uppercase tracking-tight text-bone">Encuéntranos fácilmente</h1>
+        <p class="mt-1 text-sm font-medium text-white/80">Estamos en Santa Anita, Lima. Ven a visitarnos.</p>
+      </header>
+
+      <div class="grid items-start gap-6 lg:grid-cols-12">
+        <!-- Izquierda: 3 tarjetas y mapa compacto -->
+        <div class="space-y-4 lg:col-span-7">
+          <div class="grid gap-3 sm:grid-cols-3">
+            {
+              datos.map(({ icono: Icono, titulo, texto }) => (
+                <div class="vidrio p-4 text-center">
+                  <Icono size={20} strokeWidth={1.5} className="mx-auto text-crimson" />
+                  <p class="mt-2 text-sm font-bold text-bone">{titulo}</p>
+                  <p class="mt-1 text-xs font-medium leading-snug text-white/80">{texto}</p>
+                </div>
+              ))
+            }
+          </div>
+
+          <div class="overflow-hidden rounded-2xl border border-white/10">
+            <iframe
+              title="Mapa de la sede Santa Anita"
+              src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d902.5662068630617!2d-76.9522927432084!3d-12.045050153930598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e6!4m3!3m2!1d-12.0454289!2d-76.95232969999999!4m3!3m2!1d-12.0454289!2d-76.95232969999999!5e1!3m2!1ses!2spe!4v1763736181722!5m2!1ses!2spe"
+              class="h-64 w-full border-0"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- Derecha: formulario -->
+        <div class="lg:col-span-5">
+          <h2 class="mb-3 text-xl font-bold tracking-tight text-bone">Envíanos un mensaje</h2>
+          <ContactForm client:load />
+        </div>
       </div>
 
-      <!-- Horarios y sedes -->
-      <div class="space-y-4 lg:col-span-5">
-        <section class="tarjeta p-6">
-          <h2 class="flex items-center gap-2 text-lg font-bold tracking-tight text-bone">
-            <Clock size={18} strokeWidth={1.5} /> Horario de atención
-          </h2>
-          <p class="mt-3 text-sm font-light">Lunes a domingo, de 12:00 pm a 11:00 pm.</p>
-        </section>
-
-        {
-          sedes.map((s) => (
-            <section class="tarjeta p-6">
-              <h2 class="text-lg font-bold tracking-tight text-bone">{s.nombre}</h2>
-              <p class="mt-3 flex items-start gap-2 text-sm font-light">
-                <MapPin size={16} strokeWidth={1.5} className="mt-0.5 shrink-0" /> {s.direccion}
-              </p>
-              <p class="mt-2 flex items-center gap-2 text-sm font-light">
-                <Phone size={16} strokeWidth={1.5} className="shrink-0" /> {s.telefono}
-              </p>
-            </section>
-          ))
-        }
-      </div>
+      <!-- Preguntas frecuentes en tarjetas -->
+      <section class="mt-10" aria-labelledby="t-faq">
+        <h2 id="t-faq" class="mb-4 text-lg font-bold tracking-tight text-bone">Preguntas frecuentes</h2>
+        <div class="grid items-start gap-4 md:grid-cols-2">
+          {
+            preguntas.map(({ p, r }) => (
+              <details class="vidrio group px-5 py-4 hover:border-white/20">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-bone [&::-webkit-details-marker]:hidden">
+                  {p}
+                  <ChevronDown size={18} strokeWidth={1.5} className="shrink-0 transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <p class="faq-resp mt-3 text-sm font-light leading-relaxed">{r}</p>
+              </details>
+            ))
+          }
+        </div>
+      </section>
     </div>
-
-    <!-- Mapa de la sede principal (Santa Anita, Lima) -->
-    <section class="mt-10" aria-labelledby="t-mapa">
-      <h2 id="t-mapa" class="mb-3 text-lg font-bold tracking-tight text-bone">Encuéntranos en Santa Anita, Lima</h2>
-      <div class="tarjeta overflow-hidden">
-        <iframe
-          title="Mapa de la sede Santa Anita"
-          src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d902.5662068630617!2d-76.9522927432084!3d-12.045050153930598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e6!4m3!3m2!1d-12.0454289!2d-76.95232969999999!4m3!3m2!1d-12.0454289!2d-76.95232969999999!5e1!3m2!1ses!2spe!4v1763736181722!5m2!1ses!2spe"
-          class="h-80 w-full border-0"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen></iframe>
-      </div>
-    </section>
-
-    <!-- Preguntas frecuentes -->
-    <section class="mt-10" aria-labelledby="t-faq">
-      <h2 id="t-faq" class="mb-3 text-lg font-bold tracking-tight text-bone">Preguntas frecuentes</h2>
-      <div class="tarjeta divide-y divide-white/10">
-        {
-          preguntas.map(({ p, r }) => (
-            <details class="group px-6 py-4">
-              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-bone [&::-webkit-details-marker]:hidden">
-                {p}
-                <ChevronDown size={18} strokeWidth={1.5} className="shrink-0 transition group-open:rotate-180" />
-              </summary>
-              <p class="mt-3 text-sm font-light leading-relaxed">{r}</p>
-            </details>
-          ))
-        }
-      </div>
-    </section>
   </section>
 </MainLayout>

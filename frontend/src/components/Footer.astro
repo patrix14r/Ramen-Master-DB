@@ -1,57 +1,61 @@
 ---
-// Pie de página estático (los iconos de lucide-react sin "client:" salen como SVG puro).
-import { MapPin, Phone } from 'lucide-react';
+// Footer negro de 3 columnas: marca y redes, navegación y créditos del equipo.
+import { Code } from 'lucide-react';
 import { imgUrl } from '../lib/config';
 
-// Sedes de la tabla Sedes.
-const sedes = [
-  { nombre: 'Sede Santa Anita', direccion: 'Av. Cascanueces 2221, Santa Anita', telefono: '+51 942 888 275' },
-  { nombre: 'Sede Miraflores', direccion: 'Av. Larco 123, Miraflores', telefono: '+51 999 888 777' },
-];
 const anio = new Date().getFullYear();
+const equipo = ['Patrix A', 'Jair N', 'Michael A'];
+
+// Redes sociales: icono SVG (viewBox 24) y página principal de cada una.
+const redes = [
+  { nombre: 'Instagram', url: 'https://instagram.com', d: 'M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3zm0 1.8A2.7 2.7 0 0 0 4.8 7.5v9a2.7 2.7 0 0 0 2.7 2.7h9a2.7 2.7 0 0 0 2.7-2.7v-9a2.7 2.7 0 0 0-2.7-2.7h-9zM12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 1.8a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4zm4.9-3.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z' },
+  { nombre: 'TikTok', url: 'https://tiktok.com', d: 'M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z' },
+  { nombre: 'YouTube', url: 'https://youtube.com', d: 'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z' },
+  { nombre: 'X (Twitter)', url: 'https://x.com', d: 'M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z' },
+];
 ---
 
-<footer class="mt-14 border-t border-white/10">
-  <div class="contenedor grid gap-8 py-10 md:grid-cols-12">
-    <!-- Marca -->
-    <div class="md:col-span-4">
-      <a href="/" class="flex items-center gap-3">
-        <img src={imgUrl('imagenes/logo/logo.png')} alt="" class="h-9 w-9 rounded-full object-cover" />
-        <span class="text-lg font-bold tracking-tight text-bone">Ramen Master</span>
+<footer class="mt-0 border-t border-white/10 bg-black">
+  <div class="contenedor grid gap-12 py-16 md:grid-cols-3 md:py-20">
+    <!-- Marca, eslogan y redes -->
+    <div>
+      <a href="/" class="inline-block">
+        <img src={imgUrl('imagenes/logo/logo.png')} alt="Ramen Master" class="h-16 w-16 rounded-full object-cover" />
       </a>
-      <p class="mt-3 max-w-xs text-sm font-light leading-relaxed">
-        Cocina nikkei: la tradición japonesa con sabores peruanos, preparada al momento.
-      </p>
-    </div>
-
-    <!-- Navegación -->
-    <div class="md:col-span-3">
-      <h2 class="text-xs font-medium uppercase tracking-wider text-white/50">Navegación</h2>
-      <ul class="mt-3 space-y-2 text-sm">
-        <li><a href="/" class="transition hover:text-white">Inicio</a></li>
-        <li><a href="/productos" class="transition hover:text-white">Carta completa</a></li>
-        <li><a href="/carrito" class="transition hover:text-white">Carrito</a></li>
-        <li><a href="/contactanos" class="transition hover:text-white">Contáctanos</a></li>
-        <li><a href="/perfil" class="transition hover:text-white">Mi cuenta</a></li>
+      <p class="mt-5 text-sm font-bold uppercase tracking-wide text-bone">Ramen Master</p>
+      <p class="mt-1 max-w-xs text-sm font-light">Sabores que fusionan tradición y tecnología.</p>
+      <ul class="mt-6 flex gap-3">
+        {
+          redes.map((r) => (
+            <li>
+              <a href={r.url} target="_blank" rel="noopener noreferrer" aria-label={r.nombre} class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 transition hover:border-[#ff3b2f] hover:text-[#ff3b2f] hover:shadow-[0_0_14px_rgba(255,26,26,0.55)]">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d={r.d} /></svg>
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </div>
 
-    <!-- Sedes -->
-    <div id="sedes" class="scroll-mt-24 md:col-span-5">
-      <h2 class="text-xs font-medium uppercase tracking-wider text-white/50">Nuestras sedes</h2>
-      <ul class="mt-3 grid gap-4 sm:grid-cols-2">
+    <!-- Navegación -->
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-wide text-bone">Navegación</h2>
+      <ul class="mt-5 space-y-3.5 text-sm">
+        <li><a href="/" class="transition hover:text-white">Inicio</a></li>
+        <li><a href="/productos" class="transition hover:text-white">Ver Menú Completo</a></li>
+        <li><a href="/contactanos" class="transition hover:text-white">Ubicación y Horarios</a></li>
+        <li><a href="/login" class="transition hover:text-white">Acceso Clientes</a></li>
+      </ul>
+    </div>
+
+    <!-- Créditos del equipo -->
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-wide text-bone">Desarrollado por</h2>
+      <ul class="mt-5 space-y-3.5 text-sm">
         {
-          sedes.map((s) => (
-            <li class="text-sm">
-              <p class="font-medium text-bone">{s.nombre}</p>
-              <p class="mt-1 flex items-start gap-2 font-light">
-                <MapPin size={15} strokeWidth={1.5} className="mt-0.5 shrink-0" />
-                {s.direccion}
-              </p>
-              <p class="mt-1 flex items-center gap-2 font-light">
-                <Phone size={15} strokeWidth={1.5} className="shrink-0" />
-                {s.telefono}
-              </p>
+          equipo.map((n) => (
+            <li class="flex items-center gap-2 font-medium text-bone">
+              <Code size={16} strokeWidth={1.5} className="text-crimson" /> {n}
             </li>
           ))
         }
@@ -60,8 +64,8 @@ const anio = new Date().getFullYear();
   </div>
 
   <div class="border-t border-white/10">
-    <p class="contenedor py-4 text-xs font-light text-white/40">
-      &copy; {anio} Ramen Master. Todos los derechos reservados.
+    <p class="contenedor py-6 text-center text-xs font-light text-white/40">
+      &copy; {anio} Ramen Master. Con el apoyo de Gemini AI y Tecsup.
     </p>
   </div>
 </footer>

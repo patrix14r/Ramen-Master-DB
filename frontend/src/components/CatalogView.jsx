@@ -129,7 +129,7 @@ export default function CatalogView() {
       ) : (
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visibles.map((p) => (
-            <ProductCard key={p.id_producto} producto={p} />
+            <ProductCard key={p.id_producto} producto={p} variante="carta" />
           ))}
         </div>
       )}

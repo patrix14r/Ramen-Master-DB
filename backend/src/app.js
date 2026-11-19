@@ -2,11 +2,15 @@
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const env = require('./config/env');
 const routes = require('./routes');
 
 const app = express();
 
-app.use(cors()); // permite que el frontend (otro puerto) llame a la API
+// Cabeceras de seguridad; las imágenes deben poder cargarse desde el frontend (otro origen).
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(cors({ origin: env.corsOrigin })); // solo el frontend configurado puede llamar a la API
 app.use(express.json()); // lee el body JSON en req.body
 
 // Imágenes: la carpeta imagenes/ de la raíz se sirve en /imagenes/...

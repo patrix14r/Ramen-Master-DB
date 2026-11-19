@@ -1,16 +1,8 @@
 // Cabecera global con glassmorphism: logo, navegación, buscador, favoritos, carrito y perfil.
 import { useEffect, useRef, useState } from 'react';
-import {
-  Heart,
-  LogOut,
-  Menu,
-  Receipt,
-  Search,
-  ShoppingBag,
-  UserRound,
-  X,
-} from 'lucide-react';
+import { Heart, LogOut, Menu, Receipt, Search, ShoppingBag, UserRound, X } from 'lucide-react';
 import Buscador from './Buscador.jsx';
+import MenuLateral from './MenuLateral.jsx';
 import { imgUrl } from '../lib/config';
 import { cerrarSesion, useAuth, useCart } from '../lib/store';
 import { useFavoritos } from '../lib/favoritos';
@@ -54,7 +46,7 @@ export default function Header({ ruta = '/' }) {
   const { ids: favoritos } = useFavoritos();
 
   const [menuMovil, setMenuMovil] = useState(false);
-  const [buscarMovil, setBuscarMovil] = useState(false);
+  const [buscando, setBuscando] = useState(false); // barra de búsqueda neón desplegada
   const [menuPerfil, setMenuPerfil] = useState(false);
   const refPerfil = useRef(null);
 
@@ -81,31 +73,38 @@ export default function Header({ ruta = '/' }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B0B0E]/80 backdrop-blur-md">
-      <div className="contenedor flex h-16 items-center gap-3">
-        {/* Botón de menú (solo móvil) */}
-        <button
-          type="button"
-          onClick={() => setMenuMovil((v) => !v)}
-          aria-label={menuMovil ? 'Cerrar menú' : 'Abrir menú'}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 md:hidden"
-        >
-          {menuMovil ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
-        </button>
+      <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 sm:px-6">
+        <div className="flex items-center gap-3">
+          {/* Botón de menú (solo móvil) */}
+          <button
+            type="button"
+            onClick={() => setMenuMovil((v) => !v)}
+            aria-label="Abrir menú"
+            aria-expanded={menuMovil}
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 md:hidden"
+          >
+            <Menu size={18} strokeWidth={1.5} />
+          </button>
 
-        {/* Logo */}
-        <a href="/" className="flex shrink-0 items-center gap-2.5">
-          <img
-            src={imgUrl('imagenes/logo/logo.png')}
-            alt=""
-            className="h-9 w-9 rounded-full object-cover"
-          />
-          <span className="hidden text-base font-bold tracking-tight text-bone sm:block">
-            Ramen Master
-          </span>
-        </a>
+          {/* Logo */}
+          <a href="/" className="flex shrink-0 items-center gap-2.5">
+            <img
+              src={imgUrl('imagenes/logo/logo.png')}
+              alt=""
+              className="h-9 w-9 rounded-full object-cover"
+            />
+            <span className="hidden text-base font-bold tracking-tight text-bone sm:block">Ramen Master</span>
+          </a>
+        </div>
 
         {/* Navegación (escritorio) */}
-        <nav className="ml-4 hidden items-center gap-1 md:flex" aria-label="Principal">
+        <nav
+          className={`hidden items-center gap-1 transition-all duration-300 md:flex ${
+            buscando ? 'pointer-events-none scale-95 opacity-0' : 'opacity-100'
+          }`}
+          aria-label="Principal"
+          aria-hidden={buscando}
+        >
           {ENLACES.map((e) => (
             <a
               key={e.href}
@@ -119,16 +118,14 @@ export default function Header({ ruta = '/' }) {
           ))}
         </nav>
 
-        {/* Buscador (escritorio) */}
-        <Buscador className="mx-auto hidden w-full max-w-sm md:block" />
-
         {/* Acciones */}
-        <div className="ml-auto flex items-center gap-2 md:ml-0">
+        <div className="flex items-center justify-end gap-2">
           <button
             type="button"
-            onClick={() => setBuscarMovil((v) => !v)}
-            aria-label="Buscar"
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 md:hidden"
+            onClick={() => setBuscando((v) => !v)}
+            aria-label={buscando ? 'Cerrar búsqueda' : 'Buscar platos'}
+            aria-expanded={buscando}
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition hover:bg-white/10"
           >
             <Search size={18} strokeWidth={1.5} />
           </button>
@@ -194,29 +191,31 @@ export default function Header({ ruta = '/' }) {
         </div>
       </div>
 
-      {/* Buscador desplegable (móvil) */}
-      {buscarMovil && (
-        <div className="contenedor pb-3 md:hidden">
-          <Buscador autoFocus alCerrar={() => setBuscarMovil(false)} />
+      {/* Búsqueda dentro del navbar: ocupa el centro (en móvil, toda la fila) */}
+      {buscando && (
+        <div className="animate-entrada absolute inset-x-0 top-0 flex h-16 items-center gap-2 bg-[#0B0B0E] px-6 lg:inset-x-auto lg:left-1/2 lg:w-[30rem] lg:-translate-x-1/2 lg:bg-transparent lg:px-0">
+          <Buscador autoFocus alCerrar={() => setBuscando(false)} className="w-full" />
+          <button
+            type="button"
+            onClick={() => setBuscando(false)}
+            aria-label="Cerrar búsqueda"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition hover:bg-white/10"
+          >
+            <X size={18} strokeWidth={1.5} />
+          </button>
         </div>
       )}
 
-      {/* Navegación desplegable (móvil) */}
-      {menuMovil && (
-        <nav className="contenedor flex flex-col gap-1 pb-3 md:hidden" aria-label="Móvil">
-          {ENLACES.map((e) => (
-            <a
-              key={e.href}
-              href={e.href}
-              className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
-                esActivo(e.href) ? 'bg-white/10 text-white' : 'text-white/70'
-              }`}
-            >
-              {e.texto}
-            </a>
-          ))}
-        </nav>
-      )}
+      <MenuLateral
+        abierto={menuMovil}
+        cerrar={() => setMenuMovil(false)}
+        ruta={ruta}
+        favoritos={favoritos.length}
+        carrito={totalCarrito}
+        token={token}
+        cliente={cliente}
+        salir={salir}
+      />
     </header>
   );
 }

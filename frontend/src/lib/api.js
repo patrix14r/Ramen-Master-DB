@@ -5,7 +5,7 @@ import { API_URL } from './config';
 import { authStore, cerrarSesion } from './store';
 
 // Error con el código HTTP, para que la interfaz decida qué mostrar.
-export class ApiError extends Error {
+class ApiError extends Error {
   constructor(status, message) {
     super(message);
     this.status = status;

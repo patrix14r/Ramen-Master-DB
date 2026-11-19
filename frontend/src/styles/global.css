@@ -30,8 +30,13 @@ body {
 
 /* Foco visible y consistente para teclado. */
 :focus-visible {
-  outline: 2px solid rgb(244 244 246 / 0.6);
+  outline: 2px solid rgb(217 45 32 / 0.7);
   outline-offset: 2px;
+}
+
+/* ---------- Swiper: ajuste mínimo (la clase la pone la librería) ---------- */
+.swiper {
+  padding-bottom: 4px;
 }
 
 /* ---------- Componentes reutilizables ---------- */
@@ -42,26 +47,201 @@ body {
   }
   /* Tarjeta/superficie con borde sutil. */
   .tarjeta {
-    @apply rounded-2xl border border-white/10 bg-surface;
+    @apply rounded-2xl border border-white/10 bg-surface/75 backdrop-blur-md;
   }
   /* Botón principal (CTA): único lugar con carmesí sólido. */
   .btn-cta {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-2.5 text-sm font-bold tracking-tight text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-2.5 text-sm font-bold tracking-tight text-white hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50;
   }
   /* Botón secundario: ghost/outline. */
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium tracking-tight text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium tracking-tight text-white hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50;
   }
   /* Campos de formulario. */
   .campo {
-    @apply w-full rounded-xl border border-white/10 bg-ink px-3.5 py-2.5 text-sm font-medium text-bone placeholder:font-light placeholder:text-white/40 focus:border-white/30 focus:outline-none;
+    @apply w-full rounded-xl border border-white/10 bg-ink px-3.5 py-2.5 text-sm font-medium text-bone placeholder:font-light placeholder:text-white/40 focus:outline-none;
   }
   .etiqueta {
     @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/50;
   }
+
+  /* ---------- Variantes de la identidad: contorno rojo, degradado, cristal y login ---------- */
+  /* Botón secundario transparente con borde rojo (Hero). */
+  .btn-outline-rojo {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-crimson bg-transparent px-5 py-2.5 text-sm font-bold tracking-tight text-white hover:bg-crimson/15;
+  }
+  /* Botón de envío con degradado coral a rojo. */
+  .btn-degradado {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-ink hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50;
+    background: linear-gradient(90deg, #ffb3a7 0%, #ff5a4d 100%);
+  }
+  /* Panel de cristal translúcido. */
+  .vidrio {
+    @apply rounded-2xl border border-white/15 bg-white/[0.06] shadow-lg shadow-black/30 backdrop-blur-md;
+  }
+  /* Tarjeta del login: fondo sólido y borde carmesí nítido (el halo lo da .neon al enfocar). */
+  .tarjeta-neon {
+    @apply rounded-3xl border bg-[#060607];
+    border-color: rgb(217 45 32 / 0.5);
+  }
 }
 
-/* ---------- Swiper: ajustes mínimos para el tema oscuro ---------- */
-.swiper {
-  padding-bottom: 4px;
+/* Neón giratorio: haces rojo carmesí y rojo neón rotan por el contorno; el resplandor queda contenido. */
+.neon {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--neon-r, 14px);
+}
+.neon-glow,
+.neon-borde {
+  position: absolute;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+.neon-glow {
+  inset: -3px;
+  filter: blur(7px);
+  opacity: 0.55;
+}
+.neon-borde {
+  inset: -2px;
+}
+.neon-glow::after,
+.neon-borde::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  margin: -400px 0 0 -400px;
+  background: conic-gradient(from 0deg, transparent 0deg, #d92d20 50deg, #ff1a1a 90deg, transparent 150deg, transparent 180deg, #d92d20 230deg, #ff1a1a 270deg, transparent 330deg);
+  animation: giro-neon 3.5s linear infinite;
+}
+/* Variante que solo se enciende al enfocar o pasar el cursor (login). */
+.neon-focus .neon-glow,
+.neon-focus .neon-borde {
+  opacity: 0;
+}
+.neon-focus:focus-within .neon-borde,
+.neon-focus:hover .neon-borde {
+  opacity: 1;
+}
+.neon-focus:focus-within .neon-glow,
+.neon-focus:hover .neon-glow {
+  opacity: 0.5;
+}
+@keyframes giro-neon {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neon-glow::after,
+  .neon-borde::after {
+    animation: none;
+  }
+}
+
+/* Variante azul y rojo (solo el buscador): dos haces a 180 grados, misma distancia entre ellos. */
+.neon-dual .neon-glow::after,
+.neon-dual .neon-borde::after {
+  background: conic-gradient(from 0deg, transparent 0deg, #2f3bff 30deg, #4d5bff 55deg, transparent 130deg, transparent 180deg, #d92d20 210deg, #ff1a1a 235deg, transparent 310deg);
+}
+
+/* Corazón de favoritos con resplandor neón rojo. */
+.corazon-neon {
+  fill: #ff2a2a;
+  stroke: #ff2a2a;
+  filter: drop-shadow(0 0 3px #ff2a2a) drop-shadow(0 0 9px rgb(255 26 26 / 0.65));
+  animation: latido 0.45s ease-out;
+}
+@keyframes latido {
+  0% {
+    transform: scale(0.7);
+  }
+  60% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* El foco global no debe pisar el haz azul y rojo del buscador. */
+.neon-dual input:focus-visible {
+  outline: none;
+}
+
+/* ---------- Animaciones sutiles ---------- */
+@keyframes entrada {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+.animate-entrada {
+  animation: entrada 0.28s ease-out both;
+}
+@keyframes desplegar {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+details[open] > .faq-resp {
+  animation: desplegar 0.3s ease-out;
+}
+/* Tarjetas, botones y campos responden con suavidad. */
+.tarjeta,
+.vidrio {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-cta,
+.btn-ghost,
+.btn-degradado,
+.btn-outline-rojo {
+  transition: transform 0.15s ease, filter 0.2s ease, background-color 0.2s ease;
+}
+.btn-cta:active,
+.btn-ghost:active,
+.btn-degradado:active,
+.btn-outline-rojo:active {
+  transform: scale(0.97);
+}
+.campo {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.campo:focus {
+  border-color: rgb(217 45 32 / 0.8);
+  box-shadow: 0 0 0 3px rgb(217 45 32 / 0.18);
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-entrada,
+  details[open] > .faq-resp {
+    animation: none;
+  }
+}
+
+/* Botón de acceso: carmesí vibrante con neón al pasar o pulsar. */
+.btn-neon {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold uppercase tracking-wide text-white;
+  background: linear-gradient(180deg, #e8352a 0%, #c9261a 100%);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 0 1px rgb(255 59 47 / 0.6);
+}
+.btn-neon:hover,
+.btn-neon:active {
+  box-shadow: 0 0 0 1px #ff3b2f, 0 0 14px rgb(255 26 26 / 0.65);
+  transform: translateY(-1px);
+}
+.btn-neon:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+@keyframes entrada-lateral {
+  from {
+    transform: translateX(-100%);
+  }
 }

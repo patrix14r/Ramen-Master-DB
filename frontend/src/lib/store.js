@@ -82,7 +82,7 @@ export function cerrarSesion() {
 // ---------- Carrito ----------
 // Cada item: { key, id_producto, nombre, imagen, precio, cantidad,
 //              picante, extras: [{opcion, precio_adicional}], notas, personalizable }
-export const cartStore = crearStore('rm_cart', []);
+const cartStore = crearStore('rm_cart', []);
 export const useCart = () => useStore(cartStore);
 
 // Precio de UNA unidad con sus extras.

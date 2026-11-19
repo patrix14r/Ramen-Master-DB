@@ -31,7 +31,7 @@ export const METODOS_PAGO = [
 ];
 
 // Etiqueta visible de cada categoría de la BD.
-export const ETIQUETA_CATEGORIA = {
+const ETIQUETA_CATEGORIA = {
   Ramen: 'Ramen',
   Sushi: 'Sushi / Makis',
   'Arroz Frito': 'Wok & Arroz',

@@ -1,0 +1,31 @@
+---
+// Bento grid de categorías: fotos a pantalla completa que enlazan a la Carta filtrada.
+import { imgUrl } from '../lib/config';
+
+// Ids de categoría = ids sembrados en la tabla Categorias. `area` define el tamaño de cada teselas.
+const secciones = [
+  { id: 1, nombre: 'Ramen', texto: 'Caldos de horas', img: 'imagenes/ramen/tonkotsu-ramen.jpg', area: 'col-span-2 row-span-2 md:row-span-2' },
+  { id: 2, nombre: 'Sushi / Makis', texto: 'Cortes precisos', img: 'imagenes/sushi/maki-acevichado.jpg', area: 'col-span-2' },
+  { id: 3, nombre: 'Wok & Arroz', texto: 'Fuego alto', img: 'imagenes/arroz/chaufa-especial.jpg', area: 'col-span-1' },
+  { id: 4, nombre: 'Omelets', texto: 'Suaves y tiernos', img: 'imagenes/omelets/omurice-clasico.jpg', area: 'col-span-1' },
+  { id: 5, nombre: 'Combos', texto: 'Precio especial', img: 'imagenes/ramen/miso-ramen.jpg', area: 'col-span-2 md:col-span-4' },
+];
+---
+
+<div class="grid auto-rows-[10rem] grid-cols-2 gap-3 md:auto-rows-[11rem] md:grid-cols-4">
+  {
+    secciones.map((s) => (
+      <a
+        href={`/productos?categoria=${s.id}`}
+        class={`group relative overflow-hidden rounded-2xl border border-white/10 ${s.area}`}
+      >
+        <img src={imgUrl(s.img)} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition group-hover:from-black/70"></div>
+        <div class="absolute bottom-0 left-0 p-4">
+          <h3 class="text-xl font-bold tracking-tight text-bone">{s.nombre}</h3>
+          <p class="text-sm font-light text-white/70 transition group-hover:text-white">{s.texto}</p>
+        </div>
+      </a>
+    ))
+  }
+</div>

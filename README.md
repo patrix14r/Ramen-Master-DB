@@ -1,11 +1,12 @@
 # Ramen Master 2.0
 
-Tienda de cocina nikkei (ramen, sushi, arroz frito y omelets). Backend en Express + Knex + MySQL y frontend en Astro + React + Tailwind.
+Tienda en línea de cocina nikkei (fusión japonesa y peruana): ramen, sushi, arroz frito, omelets y combos. Carta con filtros y favoritos, personalización de platos con precio en vivo, carrito con delivery o retiro en tienda, cuentas de cliente e historial de pedidos.
 
-## Puesta en marcha
+## Tecnologías
 
-1. Crea la base `ramen_master_db` en MySQL y copia `backend/.env.example` a `backend/.env` con tus valores.
-2. Desde la raíz:
+- **Frontend:** Astro 7, React 19 (islas), Tailwind CSS v4, Swiper y Lucide.
+- **Backend:** Node.js, Express 5, Knex y MySQL, con arquitectura MVC.
+- **Seguridad:** JWT, contraseñas con bcrypt, helmet, límite de intentos en login y precios siempre leídos de la base de datos.
 
 ```bash
 npm run install:all
@@ -13,13 +14,21 @@ npm run db:setup
 npm run dev
 ```
 
-- Frontend: http://localhost:4321
-- API: http://localhost:3000/api (lista de rutas)
+- Tienda: http://localhost:4321
+- API: http://localhost:3000/api
 - Cliente de prueba: `cliente@ramenmaster.pe` / `123456`
 
 ## Estructura
 
-- `backend/`: API REST (MVC: routes, controllers, models), migraciones y seeders Knex.
-- `frontend/`: tienda web (Astro, islas React, Tailwind, Swiper).
-- `database/`: script SQL base del esquema.
-- `imagenes/`: fotos de los platos, servidas por el backend en `/imagenes`.
+| Carpeta     | Contenido                                               |
+| ----------- | ------------------------------------------------------- |
+| `backend/`  | API REST, migraciones y seeders Knex                    |
+| `frontend/` | Tienda web (páginas, componentes, estilos)              |
+| `database/` | Script SQL base                                         |
+| `imagenes/` | Fotos de los platos, servidas por la API en `/imagenes` |
+
+## Equipo
+
+Patrix A, Jair N y Michael A.
+
+Ese ultimo nose pa que esta :v

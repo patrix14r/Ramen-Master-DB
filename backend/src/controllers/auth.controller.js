@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const clienteModel = require('../models/cliente.model');
 const env = require('../config/env');
 const ApiError = require('../utils/ApiError');
+const { texto, REGEX_EMAIL } = require('../utils/helpers');
 
-const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const REGEX_TELEFONO = /^\d{9}$/; // Clientes.telefono es VARCHAR(9)
 const MIN_PASSWORD = 8;
 
@@ -24,9 +24,6 @@ async function formatearCliente(c) {
     primera_compra: await clienteModel.esPrimeraCompra(c.id_cliente),
   };
 }
-
-// Convierte a texto limpio cualquier valor que llegue del body.
-const texto = (valor) => (typeof valor === 'string' ? valor.trim() : '');
 
 // POST /api/auth/registro
 exports.registro = async (req, res) => {

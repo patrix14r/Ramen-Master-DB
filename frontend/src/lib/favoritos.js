@@ -9,7 +9,7 @@ import { api } from './api';
 import { authStore, useAuth, useStore, crearStore } from './store';
 
 // Store en memoria (no se persiste: la fuente de verdad es el servidor).
-export const favStore = crearStore(null, { ids: [], cargado: false });
+const favStore = crearStore(null, { ids: [], cargado: false });
 
 let cargando = false;
 

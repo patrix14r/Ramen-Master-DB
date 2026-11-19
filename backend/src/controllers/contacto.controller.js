@@ -1,9 +1,8 @@
 // Controller de contacto: valida y guarda el mensaje del formulario.
 const contactoModel = require('../models/contacto.model');
 const ApiError = require('../utils/ApiError');
+const { texto, REGEX_EMAIL } = require('../utils/helpers');
 
-const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const texto = (v) => (typeof v === 'string' ? v.trim() : '');
 
 // POST /api/contacto  body: { nombre, email, mensaje }
 exports.enviar = async (req, res) => {

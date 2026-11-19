@@ -24,7 +24,8 @@ if (!process.env.JWT_SECRET) {
 // Exportamos un objeto ordenado. El resto del proyecto importa ESTE
 // archivo en vez de leer process.env por todas partes.
 module.exports = {
-  port: Number(process.env.PORT) || 3000, // Number(): process.env siempre es texto
+  port: Number(process.env.PORT) || 3000,
+  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:4321', // origen permitido del frontend // Number(): process.env siempre es texto
   db: {
     host: process.env.DB_HOST || '127.0.0.1',
     port: Number(process.env.DB_PORT) || 3306,

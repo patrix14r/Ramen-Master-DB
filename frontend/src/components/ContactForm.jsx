@@ -25,7 +25,7 @@ export default function ContactForm() {
   // Confirmación tras el envío.
   if (estado === 'enviado') {
     return (
-      <div className="tarjeta p-8 text-center" role="status">
+      <div className="vidrio p-8 text-center" role="status">
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5">
           <Check size={22} strokeWidth={1.5} className="text-bone" />
         </span>
@@ -39,19 +39,40 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={enviar} className="tarjeta space-y-4 p-6">
+    <form onSubmit={enviar} className="vidrio space-y-4 p-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="etiqueta" htmlFor="c-nombre">Tu nombre</label>
-          <input id="c-nombre" name="nombre" required maxLength={100} autoComplete="name" className="campo" />
+          <label className="etiqueta" htmlFor="c-nombre">
+            Tu nombre
+          </label>
+          <input
+            id="c-nombre"
+            name="nombre"
+            required
+            maxLength={100}
+            autoComplete="name"
+            className="campo !border-0 !border-b !border-white/30 !rounded-none !bg-transparent !px-0"
+          />
         </div>
         <div>
-          <label className="etiqueta" htmlFor="c-email">Correo electrónico</label>
-          <input id="c-email" name="email" type="email" required maxLength={100} autoComplete="email" className="campo" />
+          <label className="etiqueta" htmlFor="c-email">
+            Correo electrónico
+          </label>
+          <input
+            id="c-email"
+            name="email"
+            type="email"
+            required
+            maxLength={100}
+            autoComplete="email"
+            className="campo !border-0 !border-b !border-white/30 !rounded-none !bg-transparent !px-0"
+          />
         </div>
       </div>
       <div>
-        <label className="etiqueta" htmlFor="c-mensaje">Mensaje</label>
+        <label className="etiqueta" htmlFor="c-mensaje">
+          Mensaje
+        </label>
         <textarea
           id="c-mensaje"
           name="mensaje"
@@ -59,7 +80,7 @@ export default function ContactForm() {
           required
           maxLength={2000}
           placeholder="¿En qué podemos ayudarte?"
-          className="campo resize-none"
+          className="campo resize-none !border-0 !border-b !border-white/30 !rounded-none !bg-transparent !px-0"
         />
       </div>
 
@@ -69,7 +90,7 @@ export default function ContactForm() {
         </p>
       )}
 
-      <button type="submit" disabled={estado === 'enviando'} className="btn-cta w-full !py-3">
+      <button type="submit" disabled={estado === 'enviando'} className="btn-degradado w-full !py-3">
         <Send size={16} strokeWidth={1.5} /> {estado === 'enviando' ? 'Enviando...' : 'Enviar mensaje'}
       </button>
     </form>

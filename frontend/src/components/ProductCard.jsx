@@ -26,7 +26,8 @@ export function Precio({ producto, grande = false }) {
   );
 }
 
-export default function ProductCard({ producto }) {
+export default function ProductCard({ producto, variante = 'normal' }) {
+  const enCarta = variante === 'carta'; // cristal y menos texto
   const { esFavorito, alternar } = useFavoritos();
   const activo = esFavorito(producto.id_producto);
 
@@ -39,7 +40,9 @@ export default function ProductCard({ producto }) {
   }
 
   return (
-    <article className="tarjeta group flex h-full flex-col overflow-hidden">
+    <article
+      className={`${enCarta ? 'vidrio' : 'tarjeta'} group flex h-full flex-col overflow-hidden hover:-translate-y-0.5 hover:border-white/20`}
+    >
       <div className="relative aspect-[4/3] overflow-hidden">
         <a href={`/producto/${producto.id_producto}`} tabIndex={-1} aria-hidden="true">
           <img
@@ -67,8 +70,8 @@ export default function ProductCard({ producto }) {
           aria-label={activo ? 'Quitar de favoritos' : 'Agregar a favoritos'}
           className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-[#0B0B0E]/60 backdrop-blur-md transition hover:bg-[#0B0B0E]/80"
         >
-          {/* Favorito activo: relleno hueso, no carmesí */}
-          <Heart size={17} strokeWidth={1.5} className={activo ? 'fill-bone text-bone' : 'text-white'} />
+          {/* Favorito activo: corazón rojo con resplandor neón */}
+          <Heart size={17} strokeWidth={1.5} className={activo ? 'corazon-neon' : 'text-white'} />
         </button>
       </div>
 
@@ -81,7 +84,7 @@ export default function ProductCard({ producto }) {
             {producto.nombre}
           </a>
         </h3>
-        <p className="mt-1.5 line-clamp-2 text-sm font-light leading-relaxed">{producto.descripcion}</p>
+        {!enCarta && <p className="mt-1.5 line-clamp-2 text-sm font-light leading-relaxed">{producto.descripcion}</p>}
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-4">
           <Precio producto={producto} />

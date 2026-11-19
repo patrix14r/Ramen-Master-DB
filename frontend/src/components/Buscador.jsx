@@ -6,11 +6,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { listarProductos } from '../lib/api';
-import { dinero, imgUrl } from '../lib/config';
+import { dinero, imgUrl, precioVigente } from '../lib/config';
 
 // Quita tildes y mayúsculas: "Salmón" coincide con "salmon".
 const normalizar = (s) =>
-  String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  String(s || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase();
 
 export default function Buscador({ className = '', autoFocus = false, alCerrar }) {
   const [texto, setTexto] = useState('');
@@ -22,8 +25,15 @@ export default function Buscador({ className = '', autoFocus = false, alCerrar }
   // Carga el catálogo la primera vez que el usuario interactúa.
   function cargar() {
     if (productos) return;
-    listarProductos().then(setProductos).catch(() => setFallo(true));
+    listarProductos()
+      .then(setProductos)
+      .catch(() => setFallo(true));
   }
+
+  // Con autoFocus el evento onFocus no llega a React: el catálogo se carga al montar.
+  useEffect(() => {
+    if (autoFocus) cargar();
+  }, []);
 
   // Cierra el desplegable al hacer clic fuera.
   useEffect(() => {
@@ -50,49 +60,53 @@ export default function Buscador({ className = '', autoFocus = false, alCerrar }
 
   return (
     <div ref={contenedor} className={`relative ${className}`}>
-      <form onSubmit={enviar} role="search">
-        <Search
-          size={16}
-          strokeWidth={1.5}
-          className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/50"
-        />
-        <input
-          type="search"
-          value={texto}
-          autoFocus={autoFocus}
-          onFocus={() => {
-            cargar();
-            setAbierto(true);
-          }}
-          onChange={(e) => {
-            setTexto(e.target.value);
-            setAbierto(true);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') {
-              setAbierto(false);
-              alCerrar?.();
-            }
-          }}
-          placeholder="Buscar platos"
-          aria-label="Buscar platos"
-          className="h-10 w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-9 text-sm font-medium text-bone placeholder:font-light placeholder:text-white/40 focus:border-white/30 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
-        />
-        {texto && (
-          <button
-            type="button"
-            onClick={() => setTexto('')}
-            aria-label="Borrar búsqueda"
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-white/50 hover:text-white"
-          >
-            <X size={14} strokeWidth={1.5} />
-          </button>
-        )}
-      </form>
+      <div className="neon neon-dual">
+        <span className="neon-glow" aria-hidden="true" />
+        <span className="neon-borde" aria-hidden="true" />
+        <form onSubmit={enviar} role="search" className="relative rounded-xl bg-[#09090c]">
+          <Search
+            size={16}
+            strokeWidth={1.5}
+            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/50"
+          />
+          <input
+            type="search"
+            value={texto}
+            autoFocus={autoFocus}
+            onFocus={() => {
+              cargar();
+              setAbierto(true);
+            }}
+            onChange={(e) => {
+              setTexto(e.target.value);
+              setAbierto(true);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                setAbierto(false);
+                alCerrar?.();
+              }
+            }}
+            placeholder="Buscar platos"
+            aria-label="Buscar platos"
+            className="h-11 w-full rounded-xl border-0 bg-transparent pl-10 pr-9 text-sm font-medium text-bone placeholder:font-light placeholder:text-white/40 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+          />
+          {texto && (
+            <button
+              type="button"
+              onClick={() => setTexto('')}
+              aria-label="Borrar búsqueda"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-white/50 hover:text-white"
+            >
+              <X size={14} strokeWidth={1.5} />
+            </button>
+          )}
+        </form>
+      </div>
 
       {/* Resultados en vivo */}
       {abierto && consulta && (
-        <div className="absolute left-0 right-0 top-12 z-50 overflow-hidden rounded-xl border border-white/10 bg-surface shadow-2xl shadow-black/60">
+        <div className="absolute left-0 right-0 top-full z-50 mt-3 overflow-hidden rounded-xl border border-white/10 bg-surface shadow-2xl shadow-black/60">
           {fallo && <p className="p-4 text-sm">No se pudo cargar la carta.</p>}
           {!fallo && !productos && <p className="p-4 text-sm font-light">Buscando...</p>}
           {productos && resultados.length === 0 && (
@@ -114,7 +128,7 @@ export default function Buscador({ className = '', autoFocus = false, alCerrar }
                 <span className="block truncate text-sm font-medium text-bone">{p.nombre}</span>
                 <span className="block text-xs font-light text-white/50">{p.categoria_nombre}</span>
               </span>
-              <span className="text-sm font-medium text-bone">{dinero(p.precio)}</span>
+              <span className="text-sm font-medium text-bone">{dinero(precioVigente(p))}</span>
             </a>
           ))}
         </div>

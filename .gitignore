@@ -9,3 +9,7 @@ frontend/.env
 it
 CLAUDE.md
 README.md
+
+# Guía local del proyecto
+GUIA_PROYECTO.md
+

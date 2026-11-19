@@ -8,9 +8,12 @@
 import '../styles/global.css';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.astro';
+import Toaster from '../components/Toaster.jsx';
 
-const { titulo = 'Ramen Master', descripcion = 'Cocina nikkei: ramen, sushi, arroz frito y omelets.' } =
-  Astro.props;
+const {
+  titulo = 'Ramen Master',
+  descripcion = 'Cocina nikkei: ramen, sushi, arroz frito y omelets.',
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -20,6 +23,8 @@ const { titulo = 'Ramen Master', descripcion = 'Cocina nikkei: ramen, sushi, arr
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={descripcion} />
     <meta name="theme-color" content="#0B0B0E" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{titulo === 'Ramen Master' ? titulo : `${titulo} | Ramen Master`}</title>
 
     <!-- Única tipografía de toda la web: Plus Jakarta Sans (solo cambian los pesos) -->
@@ -39,6 +44,7 @@ const { titulo = 'Ramen Master', descripcion = 'Cocina nikkei: ramen, sushi, arr
       <slot />
     </main>
 
+    <Toaster client:load />
     <Footer />
   </body>
 </html>

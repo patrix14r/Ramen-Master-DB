@@ -2,14 +2,20 @@
 // Carta completa con filtros, orden y favoritos.
 import MainLayout from '../layouts/MainLayout.astro';
 import CatalogView from '../components/CatalogView.jsx';
+import { imgUrl } from '../lib/config';
 ---
 
 <MainLayout titulo="Carta" descripcion="Ramen, sushi, arroz frito y omelets de cocina nikkei.">
-  <section class="contenedor py-10">
+  <section class="relative isolate overflow-hidden">
+    <!-- Fondo ambiental difuminado para que se note el cristal de las tarjetas -->
+    <div class="absolute inset-0 -z-20 scale-105 bg-cover bg-center bg-fixed blur-md" style={`background-image:url('${imgUrl('imagenes/ramen/tantanmen.jpg')}')`}></div>
+    <div class="absolute inset-0 -z-10 bg-black/65"></div>
+    <div class="contenedor py-8 sm:py-10">
     <header class="mb-6">
       <h1 class="text-3xl font-bold tracking-tight text-bone">Nuestra carta</h1>
       <p class="mt-1 text-sm font-light">Elige un plato y personalízalo a tu gusto.</p>
     </header>
     <CatalogView client:load />
+    </div>
   </section>
 </MainLayout>

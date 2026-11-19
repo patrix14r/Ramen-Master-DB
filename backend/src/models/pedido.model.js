@@ -2,12 +2,10 @@
 const db = require('../config/database');
 const ApiError = require('../utils/ApiError');
 const productoModel = require('./producto.model');
+const { redondear } = require('../utils/helpers');
 
 const COSTO_ENVIO = 5.0; // costo fijo de delivery
 const DESCUENTO_BIENVENIDA = 'BIENVENIDA_RAMEN'; // nombre en la tabla Descuentos
-
-// Redondea a 2 decimales para evitar errores de coma flotante.
-const redondear = (n) => Math.round(n * 100) / 100;
 
 // Crea el pedido completo en una transacción: si algo falla no se guarda nada.
 async function crear({ idCliente, tipoEntrega, direccion, idMetodo, items }) {

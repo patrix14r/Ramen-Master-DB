@@ -5,6 +5,7 @@ import { EXTRAS, NIVELES_PICANTE, dinero, etiquetaCategoria, imgUrl, precioVigen
 import { Insignia, Precio } from './ProductCard.jsx';
 import { agregarAlCarrito } from '../lib/store';
 import { useFavoritos } from '../lib/favoritos';
+import { notificar } from '../lib/toast';
 
 const MAX_NOTAS = 255; // mismo límite que la columna Detalle_Pedidos.notas
 
@@ -44,6 +45,7 @@ export default function ProductCustomizer({ producto }) {
       notas: notas.trim(),
     });
     setAgregado(true);
+    notificar({ titulo: producto.nombre, detalle: cantidad > 1 ? `${cantidad} unidades agregadas` : 'Agregado al carrito', enlace: '/carrito', enlaceTexto: 'Ver carrito' });
   }
 
   async function clicFavorito() {
@@ -83,7 +85,7 @@ export default function ProductCustomizer({ producto }) {
             aria-label={favorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
             className="btn-ghost !h-10 !w-10 shrink-0 !p-0"
           >
-            <Heart size={18} strokeWidth={1.5} className={favorito ? 'fill-bone text-bone' : ''} />
+            <Heart size={18} strokeWidth={1.5} className={favorito ? 'corazon-neon' : ''} />
           </button>
         </div>
         <p className="mt-3 max-w-xl text-base font-light leading-relaxed">{producto.descripcion}</p>
