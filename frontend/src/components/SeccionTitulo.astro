@@ -3,10 +3,10 @@
 const { titulo, subtitulo, enlace, enlaceTexto } = Astro.props;
 ---
 
-<div class="mb-6 flex items-end justify-between gap-4">
+<div class="mb-5 flex items-end justify-between gap-4 sm:mb-6">
   <div>
-    <h2 class="text-2xl font-bold tracking-tight text-bone md:text-3xl">{titulo}</h2>
+    <h2 class="text-2xl font-extrabold tracking-tight text-bone md:text-3xl">{titulo}</h2>
     {subtitulo && <p class="mt-1 text-sm font-light">{subtitulo}</p>}
   </div>
-  {enlace && <a href={enlace} class="btn-ghost hidden shrink-0 sm:inline-flex">{enlaceTexto}</a>}
+  {enlace && <a href={enlace} class="btn-ghost shrink-0 !px-3 !py-1.5 text-xs sm:!px-4 sm:!py-2 sm:text-sm">{enlaceTexto}</a>}
 </div>

@@ -1,4 +1,4 @@
-// Seeder 01: categorías de la carta (las 4 del .sql más los combos en promoción).
+// Seeder 01: categorías de la carta (las 4 base más los combos en promoción).
 /** @param {import('knex').Knex} knex */
 exports.seed = async function (knex) {
   await knex('Categorias')

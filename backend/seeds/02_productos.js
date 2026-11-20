@@ -1,4 +1,4 @@
-// Seeder 02: los 20 platos del .sql (mismos nombres, precios e imágenes) más 4 combos en promoción.
+// Seeder 02: los 20 platos base (mismos nombres, precios e imágenes) más 4 combos en promoción.
 /** @param {import('knex').Knex} knex */
 
 // Ids de los platos más consumidos (según el historial de pedidos) y de las recomendaciones del Itamae.

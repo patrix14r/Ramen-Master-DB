@@ -6,6 +6,7 @@ import MenuLateral from './MenuLateral.jsx';
 import { imgUrl } from '../lib/config';
 import { cerrarSesion, useAuth, useCart } from '../lib/store';
 import { useFavoritos } from '../lib/favoritos';
+import { AnimatePresence, motion, useReducedMotion } from './Anim.jsx';
 
 // Enlaces de navegación principal.
 const ENLACES = [
@@ -49,6 +50,7 @@ export default function Header({ ruta = '/' }) {
   const [buscando, setBuscando] = useState(false); // barra de búsqueda neón desplegada
   const [menuPerfil, setMenuPerfil] = useState(false);
   const refPerfil = useRef(null);
+  const reducir = useReducedMotion(); // respeta prefers-reduced-motion
 
   // Unidades totales en el carrito (suma de cantidades).
   const totalCarrito = carrito.reduce((s, i) => s + i.cantidad, 0);
@@ -73,8 +75,9 @@ export default function Header({ ruta = '/' }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B0B0E]/80 backdrop-blur-md">
-      <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 sm:px-6">
-        <div className="flex items-center gap-3">
+      {/* Móvil: flex con extremos (izquierda [menú + logo], derecha [acciones]); desde md: rejilla de 3 columnas */}
+      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] md:gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           {/* Botón de menú (solo móvil) */}
           <button
             type="button"
@@ -119,7 +122,7 @@ export default function Header({ ruta = '/' }) {
         </nav>
 
         {/* Acciones */}
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-1.5 sm:gap-2">
           <button
             type="button"
             onClick={() => setBuscando((v) => !v)}
@@ -147,7 +150,7 @@ export default function Header({ ruta = '/' }) {
               onClick={() => (token ? setMenuPerfil((v) => !v) : (window.location.href = '/login'))}
               aria-label={token ? 'Menú de cuenta' : 'Iniciar sesión'}
               aria-expanded={menuPerfil}
-              className="flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 transition hover:bg-white/10"
+              className="flex h-10 min-w-10 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 transition hover:bg-white/10 lg:px-3"
             >
               <UserRound size={18} strokeWidth={1.5} />
               <span className="hidden text-sm font-medium tracking-tight lg:block">
@@ -155,8 +158,16 @@ export default function Header({ ruta = '/' }) {
               </span>
             </button>
 
+            <AnimatePresence>
             {menuPerfil && token && (
-              <div className="absolute right-0 top-12 w-56 overflow-hidden rounded-xl border border-white/10 bg-surface shadow-2xl shadow-black/60">
+              <motion.div
+                initial={reducir ? false : { opacity: 0, y: -6, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={reducir ? undefined : { opacity: 0, y: -6, scale: 0.97 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                style={{ transformOrigin: 'top right' }}
+                className="absolute right-0 top-12 w-56 overflow-hidden rounded-xl border border-white/10 bg-surface shadow-2xl shadow-black/60"
+              >
                 <div className="border-b border-white/10 px-4 py-3">
                   <p className="truncate text-sm font-medium text-bone">
                     {cliente?.nombre} {cliente?.apellido}
@@ -185,15 +196,16 @@ export default function Header({ ruta = '/' }) {
                 >
                   <LogOut size={16} strokeWidth={1.5} /> Cerrar sesión
                 </button>
-              </div>
+              </motion.div>
             )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
 
       {/* Búsqueda dentro del navbar: ocupa el centro (en móvil, toda la fila) */}
       {buscando && (
-        <div className="animate-entrada absolute inset-x-0 top-0 flex h-16 items-center gap-2 bg-[#0B0B0E] px-6 lg:inset-x-auto lg:left-1/2 lg:w-[30rem] lg:-translate-x-1/2 lg:bg-transparent lg:px-0">
+        <div className="animate-entrada absolute inset-x-0 top-0 flex h-16 items-center gap-2 bg-[#0B0B0E] px-4 sm:px-6 lg:inset-x-auto lg:left-1/2 lg:w-[30rem] lg:-translate-x-1/2 lg:bg-transparent lg:px-0">
           <Buscador autoFocus alCerrar={() => setBuscando(false)} className="w-full" />
           <button
             type="button"

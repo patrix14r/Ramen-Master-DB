@@ -211,6 +211,14 @@ details[open] > .faq-resp {
 .btn-outline-rojo:active {
   transform: scale(0.97);
 }
+/* Botones principales: leve elevación al pasar el cursor (solo con puntero fino). */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn-cta:hover,
+  .btn-outline-rojo:hover,
+  .btn-degradado:hover {
+    transform: translateY(-1px);
+  }
+}
 .campo {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -222,6 +230,17 @@ details[open] > .faq-resp {
   .animate-entrada,
   details[open] > .faq-resp {
     animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .tarjeta,
+  .vidrio,
+  .btn-cta,
+  .btn-ghost,
+  .btn-degradado,
+  .btn-outline-rojo {
+    transition-property: border-color, background-color, box-shadow, filter;
   }
 }
 

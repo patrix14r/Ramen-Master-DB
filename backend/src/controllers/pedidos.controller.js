@@ -1,7 +1,7 @@
 // Controller de pedidos: valida el body y delega la lógica al model.
 const pedidoModel = require('../models/pedido.model');
 const ApiError = require('../utils/ApiError');
-const { redondear } = require('../utils/helpers');
+const { EXTRAS } = require('../config/extras');
 
 const TIPOS_ENTREGA = ['Delivery', 'Retiro en tienda'];
 
@@ -31,15 +31,13 @@ function normalizarItems(items) {
       personalizacion = item.personalizacion;
     }
 
-    // Extras con precio: [{ opcion, precio_adicional }].
+    // Extras: solo se acepta el nombre; el precio sale SIEMPRE de la lista del servidor.
     const extrasEntrada = item.extras ?? [];
     if (!Array.isArray(extrasEntrada) || extrasEntrada.length > 20) throw new ApiError(400, 'extras inválidos');
     const extras = extrasEntrada.map((extra) => {
       const opcion = typeof extra?.opcion === 'string' ? extra.opcion.trim() : '';
-      const precio = Number(extra?.precio_adicional ?? 0);
-      if (!opcion || opcion.length > 100) throw new ApiError(400, 'Extra inválido');
-      if (!Number.isFinite(precio) || precio < 0 || precio > 1000) throw new ApiError(400, 'Precio de extra inválido');
-      return { opcion, precio_adicional: redondear(precio) };
+      if (!Object.hasOwn(EXTRAS, opcion)) throw new ApiError(400, `Extra no disponible: ${opcion || 'vacío'}`);
+      return { opcion, precio_adicional: EXTRAS[opcion] };
     });
 
     return { idProducto, cantidad, notas: notas || null, personalizacion, extras };

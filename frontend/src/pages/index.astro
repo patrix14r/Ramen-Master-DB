@@ -7,6 +7,8 @@ import BentoSecciones from '../components/BentoSecciones.astro';
 import BestSellers from '../components/BestSellers.jsx';
 import Combos from '../components/Combos.jsx';
 import Itamae from '../components/Itamae.jsx';
+import HeroContenido from '../components/HeroContenido.jsx';
+import { Revelar } from '../components/Anim.jsx';
 import { imgUrl } from '../lib/config';
 
 // Pilares de la sección editorial.
@@ -21,61 +23,39 @@ const pilares = [
   <!-- ===== Hero con foto de fondo y velo oscuro ===== -->
   <section class="relative isolate overflow-hidden border-b border-white/10">
     <img src={imgUrl('imagenes/fondos/fondo.jpg')} alt="" class="absolute inset-0 -z-20 h-full w-full object-cover" loading="eager" />
-    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/85 via-black/60 to-black/50"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-black/75 via-black/60 to-black/80 md:bg-gradient-to-r md:from-black/85 md:via-black/60 md:to-black/50"></div>
     <div class="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-ink to-transparent"></div>
 
-    <div class="contenedor grid items-center gap-8 py-14 lg:grid-cols-12 lg:py-20">
-      <div class="lg:col-span-7">
-        <p class="text-xs font-medium uppercase tracking-[0.2em] text-white/60">Cocina nikkei en Lima</p>
-        <h1 class="mt-3 text-5xl font-extrabold leading-[1.05] tracking-tight text-bone md:text-6xl">
-          Sabores que <span class="text-crimson">Fusionan</span>
-        </h1>
-        <p class="mt-4 max-w-md text-base font-medium leading-relaxed text-white/80">
-          Descubre la perfecta armonía entre la tradición japonesa y los sabores peruanos en cada plato.
-        </p>
-        <div class="mt-7 flex flex-wrap gap-3">
-          <a href="/productos" class="btn-cta">Pedir ahora <ArrowRight size={16} strokeWidth={1.5} /></a>
-          <a href="/productos" class="btn-outline-rojo">Delivery</a>
-        </div>
-      </div>
-
-      <!-- Columna de platos en un panel de cristal -->
-      <div class="hidden lg:col-span-5 lg:flex lg:justify-end">
-        <div class="vidrio flex w-56 flex-col gap-2 p-2">
-          <img src={imgUrl('imagenes/hero/hero-sushi.jpeg')} alt="Plato de sushi" class="h-28 w-full rounded-xl object-cover" loading="eager" />
-          <img src={imgUrl('imagenes/hero/hero-arroz.jpeg')} alt="Plato de arroz frito" class="h-28 w-full rounded-xl object-cover" loading="eager" />
-          <img src={imgUrl('imagenes/hero/hero-omelet.jpeg')} alt="Omelet japonés" class="h-28 w-full rounded-xl object-cover" loading="eager" />
-        </div>
-      </div>
-    </div>
+    <HeroContenido client:load />
   </section>
 
   <!-- ===== Nuestras secciones (bento grid) ===== -->
   <section class="contenedor py-10 lg:py-14">
-    <SeccionTitulo titulo="Nuestras secciones" subtitulo="Elige por dónde empezar." />
-    <BentoSecciones />
+    <Revelar client:visible><SeccionTitulo titulo="Nuestras secciones" subtitulo="Elige por dónde empezar." /></Revelar>
+    <Revelar client:visible><BentoSecciones /></Revelar>
   </section>
 
   <!-- ===== Los más consumidos ===== -->
   <section class="contenedor py-10 lg:py-14">
-    <SeccionTitulo titulo="Los más consumidos" subtitulo="Los platos que más piden nuestros clientes." enlace="/productos" enlaceTexto="Ver toda la carta" />
+    <Revelar client:visible><SeccionTitulo titulo="Los más consumidos" subtitulo="Los platos que más piden nuestros clientes." enlace="/productos" enlaceTexto="Ver toda la carta" /></Revelar>
     <BestSellers client:visible />
   </section>
 
   <!-- ===== Promociones y combos ===== -->
   <section id="promociones" class="contenedor scroll-mt-24 py-10 lg:py-14">
-    <SeccionTitulo titulo="Promociones y combos Nikkei" subtitulo="Combos pensados para compartir, con precio especial." />
+    <Revelar client:visible><SeccionTitulo titulo="Promociones y combos Nikkei" subtitulo="Combos pensados para compartir, con precio especial." /></Revelar>
     <Combos client:visible />
   </section>
 
   <!-- ===== Recomendaciones del Itamae ===== -->
   <section class="contenedor py-10 lg:py-14">
-    <SeccionTitulo titulo="Recomendaciones del Itamae" subtitulo="La selección personal de nuestro chef." enlace="/productos" enlaceTexto="Explorar la carta" />
+    <Revelar client:visible><SeccionTitulo titulo="Recomendaciones del Itamae" subtitulo="La selección personal de nuestro chef." enlace="/productos" enlaceTexto="Explorar la carta" /></Revelar>
     <Itamae client:visible />
   </section>
 
   <!-- ===== Nuestra historia ===== -->
   <section class="contenedor py-10 lg:py-14">
+    <Revelar client:visible>
     <div class="tarjeta grid overflow-hidden lg:grid-cols-12">
       <div class="relative min-h-64 lg:col-span-5">
         <img src={imgUrl('imagenes/fondos/fondo.jpg')} alt="Mesa con platos de cocina nikkei" class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
@@ -102,5 +82,6 @@ const pilares = [
         </ul>
       </div>
     </div>
+    </Revelar>
   </section>
 </MainLayout>

@@ -1,4 +1,4 @@
-// Migración idempotente: tabla Repartidores (no recrea la tabla si viene del .sql).
+// Migración idempotente: tabla Repartidores (no recrea la tabla si ya existe).
 /** @param {import('knex').Knex} knex */
 exports.up = async function (knex) {
   if (await knex.schema.hasTable('Repartidores')) return;
@@ -13,5 +13,5 @@ exports.up = async function (knex) {
   });
 };
 
-// Vacío a propósito: un rollback no debe borrar datos que pueden venir del .sql.
+// Vacío a propósito: un rollback no borra datos (para reconstruir todo se usa npm run fresh).
 exports.down = async function () {};

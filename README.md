@@ -16,7 +16,7 @@ npm run dev
 
 - Tienda: http://localhost:4321
 - API: http://localhost:3000/api
-- Cliente de prueba: `cliente@ramenmaster.pe` / `123456`
+- Cliente de prueba: `cliente@ramenmaster.pe` / `******`
 
 ## Estructura
 
@@ -24,7 +24,6 @@ npm run dev
 | ----------- | ------------------------------------------------------- |
 | `backend/`  | API REST, migraciones y seeders Knex                    |
 | `frontend/` | Tienda web (páginas, componentes, estilos)              |
-| `database/` | Script SQL base                                         |
 | `imagenes/` | Fotos de los platos, servidas por la API en `/imagenes` |
 
 ## Equipo
@@ -32,3 +31,4 @@ npm run dev
 Patrix A, Jair N y Michael A.
 
 Ese ultimo nose pa que esta :v
+    

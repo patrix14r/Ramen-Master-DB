@@ -11,7 +11,8 @@
     "migrate:status": "knex migrate:status",
     "migrate:make": "knex migrate:make",
     "seed": "knex seed:run",
-    "db:setup": "knex migrate:latest && knex seed:run"
+    "db:setup": "knex migrate:latest && knex seed:run",
+    "fresh": "node scripts/fresh.js"
   },
   "license": "ISC",
   "dependencies": {
